@@ -140,16 +140,3 @@ export default {
   },
 };
 </script>
-
-<style lang="scss" scoped>
-.ww-date-time-picker {
-  width: inherit;
-  height: inherit;
-  position: relative;
-
-  &__picker {
-    display: flex;
-    flex-direction: row;
-  }
-}
-</style>
