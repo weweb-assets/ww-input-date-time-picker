@@ -78,13 +78,15 @@ function getNodeName(element) {
 
 function getDocumentElement(element) {
   // $FlowFixMe: assume body is always available
-  //   console.log("pouet");
 
+  // ORIGINAL CODE
+  //   const doc = isElement(element) ? element.ownerDocument : element.document
+  //   const docElem = doc.documentElement
+
+  //   return docElem
+
+  // WEWEB MODIFICATION ->  It work, but we dont know why
   return wwLib.getFrontDocument().documentElement;
-  //   const doc = isElement(element) ? element.ownerDocument : element.document;
-  //   const docElem = doc.documentElement;
-
-  //   return docElem;
 }
 
 function getWindowScrollBarX(element) {
@@ -1469,7 +1471,6 @@ function contains(parent, child) {
   return false;
 }
 
-// Suspect 1
 function rectToClientRect(rect) {
   return Object.assign({}, rect, {
     left: rect.x,
