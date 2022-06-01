@@ -1,69 +1,67 @@
 <template>
-  <div class="ww-date-time-picker">
-    <!-- INLINE PICKER -->
-    <DatePicker
-      v-if="content.showOn === 'alwaysVisible'"
-      class="ww-date-time-picker__picker"
-      v-model="value"
-      :masks="masks"
-      :color="content.color"
-      :is-dark="content.isDarkMode"
-      :mode="mode"
-      :rows="content.rows"
-      :columns="content.columns"
-      :locale="locale"
-    />
+  <!-- INLINE PICKER -->
+  <DatePicker
+    v-if="content.showOn === 'alwaysVisible'"
+    class="ww-date-time-picker"
+    v-model="value"
+    :masks="masks"
+    :color="content.color"
+    :is-dark="content.isDarkMode"
+    :mode="mode"
+    :rows="content.rows"
+    :columns="content.columns"
+    :locale="locale"
+  />
 
-    <!-- SHOW ON CLICK -->
-    <DatePicker
-      v-else-if="content.showOn === 'click'"
-      class="ww-date-time-picker__picker"
-      v-model="value"
-      :masks="masks"
-      :color="content.color"
-      :is-dark="content.isDarkMode"
-      :mode="mode"
-      :rows="content.rows"
-      :columns="content.columns"
-      :locale="locale"
-    >
-      <template v-slot="{ inputValue, togglePopover }">
-        <wwElement
-          class="ww-date-time-picker__text"
-          v-bind="content.dateElement"
-          :wwProps="{ text: inputValue }"
-          @click="isEditing ? null : togglePopover()"
-        />
-      </template>
-    </DatePicker>
+  <!-- SHOW ON CLICK -->
+  <DatePicker
+    v-else-if="content.showOn === 'click'"
+    class="ww-date-time-picker"
+    v-model="value"
+    :masks="masks"
+    :color="content.color"
+    :is-dark="content.isDarkMode"
+    :mode="mode"
+    :rows="content.rows"
+    :columns="content.columns"
+    :locale="locale"
+  >
+    <template v-slot="{ inputValue, togglePopover }">
+      <wwElement
+        class="ww-date-time-picker__text"
+        v-bind="content.dateElement"
+        :wwProps="{ text: inputValue }"
+        @click="isEditing ? null : togglePopover()"
+      />
+    </template>
+  </DatePicker>
 
-    <!-- SHOW ON HOVER -->
-    <DatePicker
-      v-else-if="content.showOn === 'hover'"
-      class="ww-date-time-picker__picker"
-      v-model="value"
-      :masks="masks"
-      :color="content.color"
-      :is-dark="content.isDarkMode"
-      :mode="mode"
-      :rows="content.rows"
-      :columns="content.columns"
-      :locale="locale"
-    >
-      <template v-slot="{ inputValue, inputEvents }">
-        <wwElement
-          class="ww-date-time-picker__text"
-          v-bind="content.dateElement"
-          :wwProps="{ text: inputValue }"
-          v-on="isEditing ? null : inputEvents"
-        />
-      </template>
-    </DatePicker>
-  </div>
+  <!-- SHOW ON HOVER -->
+  <DatePicker
+    v-else-if="content.showOn === 'hover'"
+    class="ww-date-time-picker"
+    v-model="value"
+    :masks="masks"
+    :color="content.color"
+    :is-dark="content.isDarkMode"
+    :mode="mode"
+    :rows="content.rows"
+    :columns="content.columns"
+    :locale="locale"
+  >
+    <template v-slot="{ inputValue, inputEvents }">
+      <wwElement
+        class="ww-date-time-picker__text"
+        v-bind="content.dateElement"
+        :wwProps="{ text: inputValue }"
+        v-on="isEditing ? null : inputEvents"
+      />
+    </template>
+  </DatePicker>
 </template>
 
 <script>
-import { DatePicker } from "v-calendar";
+import { DatePicker } from "./datepicker.js";
 import "v-calendar/dist/style.css";
 
 export default {
@@ -85,7 +83,8 @@ export default {
         name: "value",
         type: "string",
         defaultValue:
-          props.content.value === undefined
+          typeof props.content.value !== "string" ||
+          typeof props.content.value !== "object"
             ? new Date().toString()
             : props.content.value,
       });
