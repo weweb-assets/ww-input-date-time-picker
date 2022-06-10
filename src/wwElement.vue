@@ -166,7 +166,7 @@ export default {
 
 <style lang="scss" scoped>
 .ww-date-time-picker {
-  justify-content: inherit;
-  width: fit-content;
+  justify-content: inherit !important;
+  width: fit-content !important;
 }
 </style>
