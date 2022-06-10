@@ -3621,8 +3621,6 @@ const _sfc_main$9 = {
             this.popoverEl,
             this.popperOptions
           );
-
-          console.log(this.ref);
         } else {
           this.popper.update();
         }
