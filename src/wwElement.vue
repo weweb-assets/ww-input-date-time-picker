@@ -27,7 +27,6 @@
     :rows="content.rows"
     :columns="content.columns"
     :locale="locale"
-    @mouseenter.stop="handleMouseEnter"
   >
     <template v-slot="{ inputValue, togglePopover }">
       <wwElement
@@ -52,7 +51,6 @@
     :rows="content.rows"
     :columns="content.columns"
     :locale="locale"
-    @mouseenter.stop="handleMouseEnter"
   >
     <template v-slot="{ inputValue, inputEvents }">
       <wwElement
@@ -95,11 +93,6 @@ export default {
       });
 
     return { variableValue, setValue };
-  },
-  data() {
-    return {
-      componentKey: 0,
-    };
   },
   watch: {
     value(newValue) {
@@ -154,11 +147,6 @@ export default {
       }
 
       return this.content.lang;
-    },
-  },
-  methods: {
-    handleMouseEnter() {
-      this.componentKey += 1;
     },
   },
 };
