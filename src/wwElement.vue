@@ -2,6 +2,7 @@
   <!-- INLINE PICKER -->
   <DatePicker
     v-if="content.showOn === 'alwaysVisible'"
+    :key="'alwaysVisible-' + componentKey"
     class="ww-date-time-picker"
     v-model="value"
     :masks="masks"
@@ -16,6 +17,7 @@
   <!-- SHOW ON CLICK -->
   <DatePicker
     v-else-if="content.showOn === 'click'"
+    :key="'click-' + componentKey"
     class="ww-date-time-picker"
     v-model="value"
     :masks="masks"
@@ -25,6 +27,7 @@
     :rows="content.rows"
     :columns="content.columns"
     :locale="locale"
+    @mouseenter.stop="handleMouseEnter"
   >
     <template v-slot="{ inputValue, togglePopover }">
       <wwElement
@@ -39,6 +42,7 @@
   <!-- SHOW ON HOVER -->
   <DatePicker
     v-else-if="content.showOn === 'hover'"
+    :key="'hover-' + componentKey"
     class="ww-date-time-picker"
     v-model="value"
     :masks="masks"
@@ -48,6 +52,7 @@
     :rows="content.rows"
     :columns="content.columns"
     :locale="locale"
+    @mouseenter.stop="handleMouseEnter"
   >
     <template v-slot="{ inputValue, inputEvents }">
       <wwElement
@@ -90,6 +95,11 @@ export default {
       });
 
     return { variableValue, setValue };
+  },
+  data() {
+    return {
+      componentKey: 0,
+    };
   },
   watch: {
     value(newValue) {
@@ -146,5 +156,16 @@ export default {
       return this.content.lang;
     },
   },
+  methods: {
+    handleMouseEnter() {
+      this.componentKey += 1;
+    },
+  },
 };
 </script>
+
+<style lang="scss" scoped>
+.ww-date-time-picker {
+  justify-content: inherit;
+}
+</style>
