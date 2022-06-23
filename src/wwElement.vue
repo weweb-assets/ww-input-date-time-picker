@@ -2,7 +2,7 @@
   <!-- INLINE PICKER -->
   <DatePicker
     v-if="content.showOn === 'alwaysVisible'"
-    :key="'alwaysVisible-' + componentKey"
+    key="alwaysVisible"
     class="ww-date-time-picker"
     v-model="value"
     :masks="masks"
@@ -17,7 +17,7 @@
   <!-- SHOW ON CLICK -->
   <DatePicker
     v-else-if="content.showOn === 'click'"
-    :key="'click-' + componentKey"
+    key="click"
     class="ww-date-time-picker"
     v-model="value"
     :masks="masks"
@@ -41,7 +41,7 @@
   <!-- SHOW ON HOVER -->
   <DatePicker
     v-else-if="content.showOn === 'hover'"
-    :key="'hover-' + componentKey"
+    key="hover"
     class="ww-date-time-picker"
     v-model="value"
     :masks="masks"
