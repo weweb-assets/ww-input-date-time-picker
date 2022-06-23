@@ -86,10 +86,10 @@ export default {
         name: "value",
         type: "string",
         defaultValue:
-          typeof props.content.value !== "string" ||
-          typeof props.content.value !== "object"
+          typeof props.content.initValue !== "string" &&
+          typeof props.content.initValue !== "object"
             ? new Date().toString()
-            : props.content.value,
+            : props.content.initValue,
       });
 
     return { variableValue, setValue };
