@@ -2,6 +2,7 @@
   <!-- INLINE PICKER -->
   <DatePicker
     v-if="content.showOn === 'alwaysVisible'"
+    key="alwaysVisible"
     class="ww-date-time-picker"
     v-model="value"
     :masks="masks"
@@ -16,6 +17,7 @@
   <!-- SHOW ON CLICK -->
   <DatePicker
     v-else-if="content.showOn === 'click'"
+    key="click"
     class="ww-date-time-picker"
     v-model="value"
     :masks="masks"
@@ -39,6 +41,7 @@
   <!-- SHOW ON HOVER -->
   <DatePicker
     v-else-if="content.showOn === 'hover'"
+    key="hover"
     class="ww-date-time-picker"
     v-model="value"
     :masks="masks"
@@ -83,10 +86,10 @@ export default {
         name: "value",
         type: "string",
         defaultValue:
-          typeof props.content.value !== "string" ||
-          typeof props.content.value !== "object"
+          typeof props.content.initValue !== "string" &&
+          typeof props.content.initValue !== "object"
             ? new Date().toString()
-            : props.content.value,
+            : props.content.initValue,
       });
 
     return { variableValue, setValue };
@@ -148,3 +151,10 @@ export default {
   },
 };
 </script>
+
+<style lang="scss" scoped>
+.ww-date-time-picker {
+  justify-content: inherit !important;
+  width: fit-content !important;
+}
+</style>
