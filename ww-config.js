@@ -22,7 +22,7 @@ export default {
         en: "Init value",
       },
       type: "Text",
-      defaultValue: "Fri May 20 2022 01:34:27 GMT+0200",
+      defaultValue: "Fri May 20 2022 00:00:00 GMT+0200",
       bindable: true,
       section: "settings",
     },
@@ -85,7 +85,7 @@ export default {
         en: "Visualisation format",
       },
       type: "Text",
-      defaultValue: "YYYY-MM-DD h:mm A",
+      defaultValue: "YYYY-MM-DD HH:mm A",
       section: "settings",
     },
     color: {

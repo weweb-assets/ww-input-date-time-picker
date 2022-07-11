@@ -95,22 +95,31 @@ export default {
     return { variableValue, setValue };
   },
   watch: {
-    value(newValue) {
-      if (newValue === this.value) return;
+    value(newValue, oldValue) {
+      if (newValue === oldValue) return;
       this.setValue(newValue);
       this.$emit("trigger-event", {
         name: "initValueChange",
         event: { value: newValue },
       });
     },
-    "content.initValue"(newValue) {
-      if (newValue === this.value) return;
+    "content.initValue"(newValue, oldValue) {
+      if (newValue === oldValue) return;
       this.value = newValue;
     },
     "content.selectAlsoTime"(newValue) {
       if (newValue === false) {
         this.$emit("update:content", { onlyTime: false });
       }
+    },
+  },
+  methods: {
+    ajustDate(date) {
+      if (this.mode === "date") {
+        return new Date(new Date(date).setHours(0, 0, 0));
+      }
+
+      return date;
     },
   },
   computed: {
@@ -129,7 +138,9 @@ export default {
       },
       set(newValue, oldValue) {
         if (newValue === oldValue) return;
-        if (newValue.toString()) this.setValue(newValue.toString());
+        if (newValue.toString()) {
+          this.setValue(this.ajustDate(newValue).toString());
+        }
       },
     },
     masks() {
