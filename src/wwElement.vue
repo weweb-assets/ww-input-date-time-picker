@@ -1,7 +1,14 @@
 <template>
+  <wwElement
+    v-if="isReadonly"
+    class="ww-date-time-picker__text"
+    v-bind="content.dateElement"
+    :wwProps="{ text: inputValue }"
+    @click="isEditing ? null : togglePopover()"
+  />
   <!-- INLINE PICKER -->
   <DatePicker
-    v-if="content.showOn === 'alwaysVisible'"
+    v-else-if="content.showOn === 'alwaysVisible'"
     key="alwaysVisible"
     class="ww-date-time-picker"
     v-model="value"
@@ -71,13 +78,14 @@ export default {
   components: {
     DatePicker,
   },
-  emits: ["update:content"],
+  emits: ["update:content", 'add-state', 'remove-state'],
   props: {
     content: { type: Object, required: true },
     uid: { type: String, required: true },
     /* wwEditor:start */
     wwEditorState: { type: Object, required: true },
     /* wwEditor:end */
+    wwElementState: { type: Object, required: true },
   },
   setup(props) {
     const { value: variableValue, setValue } =
@@ -111,6 +119,16 @@ export default {
       if (newValue === false) {
         this.$emit("update:content", { onlyTime: false });
       }
+    },
+    isReadonly: {
+      immediate: true,
+      handler(value) {
+          if (value) {
+              this.$emit('add-state', 'readonly');
+          } else {
+              this.$emit('remove-state', 'readonly');
+          }
+      },
     },
   },
   methods: {
@@ -159,6 +177,16 @@ export default {
 
       return this.content.lang;
     },
+    isReadonly() {
+          /* wwEditor:start */
+          if (this.wwEditorState.isSelected) {
+              return this.wwElementState.states.includes('readonly');
+          }
+          /* wwEditor:end */
+          return this.wwElementState.props.readonly === undefined
+              ? this.content.readonly
+              : this.wwElementState.props.readonly;
+      },
   },
 };
 </script>

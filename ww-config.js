@@ -58,6 +58,14 @@ export default {
       defaultValue: false,
       section: "settings",
     },
+    readonly: {
+      label: { en: 'Read only', fr: 'Lecture seule' },
+      type: 'OnOff',
+      section: 'settings',
+      bindable: true,
+      defaultValue: false,
+      hidden: (content, sidePanelContent, boundProps, wwProps) => !!(wwProps && wwProps.readonly !== undefined),
+  },
     lang: {
       label: {
         en: "Lang",
