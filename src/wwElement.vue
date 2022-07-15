@@ -1,11 +1,25 @@
 <template>
-  <wwElement
-    v-if="isReadonly"
-    class="ww-date-time-picker__text"
-    v-bind="content.dateElement"
-    :wwProps="{ text: inputValue }"
-    @click="isEditing ? null : togglePopover()"
-  />
+  <DatePicker
+      v-if="isReadOnly"
+      key="readonly"
+      class="ww-date-time-picker"
+      v-model="value"
+      :masks="masks"
+      :color="content.color"
+      :is-dark="content.isDarkMode"
+      :mode="mode"
+      :rows="content.rows"
+      :columns="content.columns"
+      :locale="locale"
+    >
+      <template v-slot="{ inputValue }">
+        <wwElement
+          class="ww-date-time-picker__text"
+          v-bind="content.dateElement"
+          :wwProps="{ text: inputValue }"
+        />
+      </template>
+    </DatePicker>
   <!-- INLINE PICKER -->
   <DatePicker
     v-else-if="content.showOn === 'alwaysVisible'"
