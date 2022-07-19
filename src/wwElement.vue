@@ -135,7 +135,7 @@ export default {
         this.$emit("update:content", { onlyTime: false });
       }
     },
-    isReadonly: {
+    isReadOnly: {
       immediate: true,
       handler(value) {
           if (value) {
@@ -192,7 +192,7 @@ export default {
 
       return this.content.lang;
     },
-    isReadonly() {
+    isReadOnly() {
           /* wwEditor:start */
           if (this.wwEditorState.isSelected) {
               return this.wwElementState.states.includes('readonly');
