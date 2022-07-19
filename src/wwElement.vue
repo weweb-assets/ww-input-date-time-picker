@@ -17,6 +17,7 @@
           class="ww-date-time-picker__text"
           v-bind="content.dateElement"
           :wwProps="{ text: inputValue }"
+          :states="isReadOnly ? ['readonly'] : []"
         />
       </template>
     </DatePicker>
