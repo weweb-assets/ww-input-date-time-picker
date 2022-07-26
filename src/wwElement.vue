@@ -1,7 +1,29 @@
 <template>
+  <DatePicker
+      v-if="isReadOnly"
+      key="readonly"
+      class="ww-date-time-picker"
+      v-model="value"
+      :masks="masks"
+      :color="content.color"
+      :is-dark="content.isDarkMode"
+      :mode="mode"
+      :rows="content.rows"
+      :columns="content.columns"
+      :locale="locale"
+    >
+      <template v-slot="{ inputValue }">
+        <wwElement
+          class="ww-date-time-picker__text"
+          v-bind="content.dateElement"
+          :wwProps="{ text: inputValue }"
+          :states="isReadOnly ? ['readonly'] : []"
+        />
+      </template>
+    </DatePicker>
   <!-- INLINE PICKER -->
   <DatePicker
-    v-if="content.showOn === 'alwaysVisible'"
+    v-else-if="content.showOn === 'alwaysVisible'"
     key="alwaysVisible"
     class="ww-date-time-picker"
     v-model="value"
@@ -71,13 +93,14 @@ export default {
   components: {
     DatePicker,
   },
-  emits: ["update:content"],
+  emits: ["update:content", 'add-state', 'remove-state'],
   props: {
     content: { type: Object, required: true },
     uid: { type: String, required: true },
     /* wwEditor:start */
     wwEditorState: { type: Object, required: true },
     /* wwEditor:end */
+    wwElementState: { type: Object, required: true },
   },
   setup(props) {
     const { value: variableValue, setValue } =
@@ -111,6 +134,16 @@ export default {
       if (newValue === false) {
         this.$emit("update:content", { onlyTime: false });
       }
+    },
+    isReadOnly: {
+      immediate: true,
+      handler(value) {
+          if (value) {
+              this.$emit('add-state', 'readonly');
+          } else {
+              this.$emit('remove-state', 'readonly');
+          }
+      },
     },
   },
   methods: {
@@ -159,6 +192,16 @@ export default {
 
       return this.content.lang;
     },
+    isReadOnly() {
+          /* wwEditor:start */
+          if (this.wwEditorState.isSelected) {
+              return this.wwElementState.states.includes('readonly');
+          }
+          /* wwEditor:end */
+          return this.wwElementState.props.readonly === undefined
+              ? this.content.readonly
+              : this.wwElementState.props.readonly;
+      },
   },
 };
 </script>
