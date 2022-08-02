@@ -93,7 +93,7 @@ export default {
   components: {
     DatePicker,
   },
-  emits: ["update:content", 'add-state', 'remove-state'],
+  emits: ["update:content", 'add-state', 'remove-state', 'trigger-event'],
   props: {
     content: { type: Object, required: true },
     uid: { type: String, required: true },
@@ -122,13 +122,17 @@ export default {
       if (newValue === oldValue) return;
       this.setValue(newValue);
       this.$emit("trigger-event", {
-        name: "initValueChange",
+        name: "change",
         event: { value: newValue },
       });
     },
     "content.initValue"(newValue, oldValue) {
       if (newValue === oldValue) return;
       this.value = newValue;
+      this.$emit("trigger-event", {
+        name: "initValueChange",
+        event: { value: newValue },
+      });
     },
     "content.selectAlsoTime"(newValue) {
       if (newValue === false) {
