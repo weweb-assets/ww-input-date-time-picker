@@ -5,7 +5,7 @@ export default {
     },
     customStylePropertiesOrder: ["color", "isDarkMode", ["rows", "columns"]],
     bubble: {
-      icon: "fontawesome/regular/calendar",
+      icon: "calendar",
     },
   },
   triggerEvents: [
