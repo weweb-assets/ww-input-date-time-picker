@@ -28,7 +28,8 @@ export default {
       /* wwEditor:start */
       bindingValidation: {
         type: "string",
-        tooltip: 'A string ISO date: `"2021-03-11T10:11:20.000+00:00"`',
+        tooltip:
+          'A string, <a href="https://en.wikipedia.org/wiki/ISO_8601" target="_blank">ISO Date</a> or <a href="https://en.wikipedia.org/wiki/Unix_time" target="_blank">Timestamp</a>: `"2021-03-11T10:11:20.000+00:00"` or `"1667825290"`',
       },
       /* wwEditor:end */
     },
@@ -65,13 +66,21 @@ export default {
       section: "settings",
     },
     readonly: {
-      label: { en: 'Read only', fr: 'Lecture seule' },
-      type: 'OnOff',
-      section: 'settings',
+      label: { en: "Read only", fr: "Lecture seule" },
+      type: "OnOff",
+      section: "settings",
       bindable: true,
       defaultValue: false,
-      hidden: (content, sidePanelContent, boundProps, wwProps) => !!(wwProps && wwProps.readonly !== undefined),
-  },
+      hidden: (content, sidePanelContent, boundProps, wwProps) =>
+        !!(wwProps && wwProps.readonly !== undefined),
+      /* wwEditor:start */
+      bindingValidation: {
+        type: "boolean",
+        tooltip:
+          "A boolean that defines if the input is in readonly: `true | false`",
+      },
+      /* wwEditor:end */
+    },
     lang: {
       label: {
         en: "Lang",
@@ -96,7 +105,8 @@ export default {
       /* wwEditor:start */
       bindingValidation: {
         type: "string",
-        tooltip: 'A string that defines the lang: `"en" | "es" | "fr"`',
+        tooltip:
+          'A string that defines the lang: `"en" | "es" | "fr"` or `"pageLang"` for de current page lang',
       },
       /* wwEditor:end */
     },
