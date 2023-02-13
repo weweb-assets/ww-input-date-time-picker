@@ -3460,12 +3460,12 @@ const _sfc_main$9 = {
       on(this.popoverEl, "mouseleave", this.onMouseLeave);
       on(this.popoverEl, "focusin", this.onFocusIn);
       on(this.popoverEl, "focusout", this.onFocusOut);
-      on(document, "keydown", this.onDocumentKeydown);
-      on(document, "click", this.onDocumentClick);
-      on(document, "show-popover", this.onDocumentShowPopover);
-      on(document, "hide-popover", this.onDocumentHidePopover);
-      on(document, "toggle-popover", this.onDocumentTogglePopover);
-      on(document, "update-popover", this.onDocumentUpdatePopover);
+      on(wwLib.getFrontDocument(), "keydown", this.onDocumentKeydown);
+      on(wwLib.getFrontDocument(), "click", this.onDocumentClick);
+      on(wwLib.getFrontDocument(), "show-popover", this.onDocumentShowPopover);
+      on(wwLib.getFrontDocument(), "hide-popover", this.onDocumentHidePopover);
+      on(wwLib.getFrontDocument(), "toggle-popover", this.onDocumentTogglePopover);
+      on(wwLib.getFrontDocument(), "update-popover", this.onDocumentUpdatePopover);
     },
     removeEvents() {
       off(this.popoverEl, "click", this.onClick);
@@ -3473,12 +3473,12 @@ const _sfc_main$9 = {
       off(this.popoverEl, "mouseleave", this.onMouseLeave);
       off(this.popoverEl, "focusin", this.onFocusIn);
       off(this.popoverEl, "focusout", this.onFocusOut);
-      off(document, "keydown", this.onDocumentKeydown);
-      off(document, "click", this.onDocumentClick);
-      off(document, "show-popover", this.onDocumentShowPopover);
-      off(document, "hide-popover", this.onDocumentHidePopover);
-      off(document, "toggle-popover", this.onDocumentTogglePopover);
-      off(document, "update-popover", this.onDocumentUpdatePopover);
+      off(wwLib.getFrontDocument(), "keydown", this.onDocumentKeydown);
+      off(wwLib.getFrontDocument(), "click", this.onDocumentClick);
+      off(wwLib.getFrontDocument(), "show-popover", this.onDocumentShowPopover);
+      off(wwLib.getFrontDocument(), "hide-popover", this.onDocumentHidePopover);
+      off(wwLib.getFrontDocument(), "toggle-popover", this.onDocumentTogglePopover);
+      off(wwLib.getFrontDocument(), "update-popover", this.onDocumentUpdatePopover);
     },
     onClick(e) {
       e.stopPropagation();
@@ -3492,7 +3492,7 @@ const _sfc_main$9 = {
       if (
         this.autoHide &&
         !this.isFocused &&
-        (!this.ref || this.ref !== document.activeElement)
+        (!this.ref || this.ref !== wwLib.getFrontDocument().activeElement)
       ) {
         this.hide();
       }
@@ -6636,8 +6636,8 @@ var CalendarNav = /* @__PURE__ */ _export_sfc(_sfc_main$6, [
   ["render", _sfc_render$2],
 ]);
 function showPopover(opts) {
-  if (document) {
-    document.dispatchEvent(
+  if (wwLib.getFrontDocument()) {
+    wwLib.getFrontDocument().dispatchEvent(
       new CustomEvent("show-popover", {
         detail: opts,
       })
@@ -6645,8 +6645,8 @@ function showPopover(opts) {
   }
 }
 function hidePopover(opts) {
-  if (document) {
-    document.dispatchEvent(
+  if (wwLib.getFrontDocument()) {
+    wwLib.getFrontDocument().dispatchEvent(
       new CustomEvent("hide-popover", {
         detail: opts,
       })
@@ -6654,8 +6654,8 @@ function hidePopover(opts) {
   }
 }
 function togglePopover(opts) {
-  if (document) {
-    document.dispatchEvent(
+  if (wwLib.getFrontDocument()) {
+    wwLib.getFrontDocument().dispatchEvent(
       new CustomEvent("toggle-popover", {
         detail: opts,
       })
@@ -6663,8 +6663,8 @@ function togglePopover(opts) {
   }
 }
 function updatePopover(opts) {
-  if (document) {
-    document.dispatchEvent(
+  if (wwLib.getFrontDocument()) {
+    wwLib.getFrontDocument().dispatchEvent(
       new CustomEvent("update-popover", {
         detail: opts,
       })
@@ -8881,12 +8881,12 @@ const _sfc_main = {
     this.refreshDateParts();
   },
   mounted() {
-    on(document, "keydown", this.onDocumentKeyDown);
-    on(document, "click", this.onDocumentClick);
+    on(wwLib.getFrontDocument(), "keydown", this.onDocumentKeyDown);
+    on(wwLib.getFrontDocument(), "click", this.onDocumentClick);
   },
   beforeUnmount() {
-    off(document, "keydown", this.onDocumentKeyDown);
-    off(document, "click", this.onDocumentClick);
+    off(wwLib.getFrontDocument(), "keydown", this.onDocumentKeyDown);
+    off(wwLib.getFrontDocument(), "click", this.onDocumentClick);
   },
   methods: {
     getDateParts(date) {
@@ -8923,7 +8923,7 @@ const _sfc_main = {
     },
     onDocumentClick(e) {
       if (
-        document.body.contains(e.target) &&
+        wwLib.getFrontDocument().body.contains(e.target) &&
         !elementContains(this.$el, e.target)
       ) {
         this.dragValue = null;
