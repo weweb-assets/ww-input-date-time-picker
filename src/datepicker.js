@@ -150,8 +150,8 @@ function addYears(dirtyDate, dirtyAmount) {
 var commonjsGlobal =
   typeof globalThis !== "undefined"
     ? globalThis
-    : typeof window !== "undefined"
-    ? window
+    : typeof wwLib.getFrontWindow() !== "undefined"
+    ? wwLib.getFrontWindow()
     : typeof global !== "undefined"
     ? global
     : typeof self !== "undefined"
@@ -5992,8 +5992,8 @@ const computedLocales = computed(() => {
   });
 });
 const getDefault = (path) => {
-  if (window && has(window.__vcalendar__, path)) {
-    return get_1(window.__vcalendar__, path);
+  if (wwLib.getFrontWindow() && has(wwLib.getFrontWindow().__vcalendar__, path)) {
+    return get_1(wwLib.getFrontWindow().__vcalendar__, path);
   }
   return get_1(state, path);
 };
@@ -9370,7 +9370,7 @@ var screensPlugin = {
   install: (app, screens) => {
     screens = defaultsDeep_1(
       screens,
-      window && window.__screens__,
+      wwLib.getFrontWindow() && wwLib.getFrontWindow().__screens__,
       defaultScreens
     );
     let shouldRefreshQueries = true;
@@ -9384,9 +9384,9 @@ var screensPlugin = {
         .map((p) => p[0]);
     };
     const refreshQueries = () => {
-      if (!shouldRefreshQueries || !window || !window.matchMedia) return;
+      if (!shouldRefreshQueries || !wwLib.getFrontWindow() || !wwLib.getFrontWindow().matchMedia) return;
       state2.queries = mapValues_1(screens, (v) => {
-        const query = window.matchMedia(buildMediaQuery(v));
+        const query = wwLib.getFrontWindow().matchMedia(buildMediaQuery(v));
         if (isFunction_1(query.addEventListener)) {
           query.addEventListener("change", refreshMatches);
         } else {
