@@ -118,21 +118,12 @@ export default {
     return { variableValue, setValue };
   },
   watch: {
-    value(newValue, oldValue) {
-      if (newValue === oldValue) return;
-      this.setValue(newValue);
-      this.$emit("trigger-event", {
-        name: "change",
-        event: { value: newValue },
-      });
-    },
-    "content.initValue"(newValue, oldValue) {
-      if (newValue === oldValue) return;
-      this.value = newValue;
-      this.$emit("trigger-event", {
-        name: "initValueChange",
-        event: { value: newValue },
-      });
+    "content.initValue"(newValue) {
+      if (this.setNewDate(newValue))
+        this.$emit("trigger-event", {
+          name: "initValueChange",
+          event: { value: this.value },
+        });
     },
     "content.selectAlsoTime"(newValue) {
       if (newValue === false) {
@@ -158,6 +149,12 @@ export default {
 
       return date;
     },
+    setNewDate(date) {
+      const newDate = this.ajustDate(date).toString()
+      if (this.value === newDate) return false
+      this.setValue(newDate);
+      return true
+    }
   },
   computed: {
     isEditing() {
@@ -173,11 +170,12 @@ export default {
       get() {
         return this.variableValue;
       },
-      set(newValue, oldValue) {
-        if (newValue === oldValue) return;
-        if (newValue.toString()) {
-          this.setValue(this.ajustDate(newValue).toString());
-        }
+      set(newValue) {
+        if (this.setNewDate(newValue)) 
+          this.$emit("trigger-event", {
+            name: "change",
+            event: { value: this.value },
+          });
       },
     },
     masks() {
