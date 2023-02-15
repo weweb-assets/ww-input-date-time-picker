@@ -50,6 +50,7 @@
     :rows="content.rows"
     :columns="content.columns"
     :locale="locale"
+    :popover="{showDelay: 1000}"
   >
     <template v-slot="{ inputValue, togglePopover }">
       <wwElement
@@ -74,6 +75,7 @@
     :rows="content.rows"
     :columns="content.columns"
     :locale="locale"
+    :popover="{showDelay: 1000}"
   >
     <template v-slot="{ inputValue, inputEvents }">
       <wwElement
