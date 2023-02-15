@@ -34,6 +34,7 @@
     :rows="content.rows"
     :columns="content.columns"
     :locale="locale"
+    :popover="{showDelay: 1000}"
   />
 
   <!-- SHOW ON CLICK -->
