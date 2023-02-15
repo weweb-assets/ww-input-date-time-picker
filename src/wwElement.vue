@@ -2,7 +2,6 @@
   <div>
     <!-- SHOW ON CLICK -->
     <DatePicker
-      key="click"
       class="ww-date-time-picker"
       v-model="value"
       :masks="masks"
