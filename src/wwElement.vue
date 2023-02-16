@@ -23,8 +23,8 @@
 </template>
 
 <script>
-import DatePicker from './vue-datepicker.js';
-import './vue-datepicker.css'
+import DatePicker from '@vuepic/vue-datepicker';
+import '@vuepic/vue-datepicker/dist/main.css'
 
 export default {
   components: {

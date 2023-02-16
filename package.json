@@ -9,6 +9,6 @@
     "@weweb/cli": "latest"
   },
   "dependencies": {
-    "date-fns": "^2.29.3"
+    "@vuepic/vue-datepicker": "^3.6.8"
   }
 }
