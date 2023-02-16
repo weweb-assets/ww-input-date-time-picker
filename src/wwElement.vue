@@ -4,21 +4,18 @@
     <DatePicker
       class="ww-date-time-picker"
       v-model="value"
-      :masks="masks"
-      :color="content.color"
-      :is-dark="content.isDarkMode"
-      :mode="mode"
-      :rows="content.rows"
-      :columns="content.columns"
+      :format="content.mask.toLowerCase()"
+      :dark="content.isDarkMode"
       :locale="locale"
-      :popover="{showDelay: 1000}"
+      :enable-time-picker="content.selectAlsoTime"
+      :time-picker="content.onlyTime"
+      :teleport="body"
     >
-      <template v-slot="{ inputValue, togglePopover }">
+      <template #dp-input="{ value }">
         <wwElement
           class="ww-date-time-picker__text"
           v-bind="content.dateElement"
-          :wwProps="{ text: inputValue }"
-          @click="isEditing ? null : togglePopover()"
+          :wwProps="{ text: value }"
         />
       </template>
     </DatePicker>
@@ -26,8 +23,8 @@
 </template>
 
 <script>
-import { DatePicker } from "./datepicker.js";
-import "v-calendar/dist/style.css";
+import DatePicker from './vue-datepicker.js';
+import './vue-datepicker.css'
 
 export default {
   components: {
@@ -54,8 +51,9 @@ export default {
             ? new Date().toString()
             : props.content.initValue,
       });
+      const body = wwLib.getFrontDocument().body
 
-    return { variableValue, setValue };
+    return { variableValue, setValue, body };
   },
   watch: {
     value(newValue, oldValue) {
@@ -119,13 +117,6 @@ export default {
           this.setValue(this.ajustDate(newValue).toString());
         }
       },
-    },
-    masks() {
-      return {
-        input: this.content.mask,
-        inputTime: this.content.mask,
-        inputDateTime: this.content.mask
-      };
     },
     mode() {
       if (this.content.onlyTime) return "time";
