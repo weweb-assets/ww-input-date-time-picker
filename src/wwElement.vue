@@ -86,6 +86,7 @@
 </template>
 
 <script>
+import { computed } from "vue";
 import { DatePicker } from "./datepicker.js";
 import "v-calendar/dist/style.css";
 
@@ -109,10 +110,12 @@ export default {
         name: "value",
         type: "string",
         defaultValue:
-          typeof props.content.initValue !== "string" &&
-          typeof props.content.initValue !== "object"
-            ? new Date().toString()
-            : props.content.initValue,
+          computed(() => 
+            typeof props.content.initValue !== "string" &&
+            typeof props.content.initValue !== "object"
+              ? new Date().toString()
+              : props.content.initValue
+          ),
       });
 
     return { variableValue, setValue };
