@@ -6,7 +6,7 @@
       class="ww-date-time-picker"
       :model-value="formatedValue"
       @update:model-value="handleSelection"
-      :format="content.format"
+      :format="previewFormat"
       :clearable="false"
       :locale="locale"
       :time-picker="content.dateMode === 'time'"
@@ -190,6 +190,10 @@ export default {
       /* wwEditor:end */
       // eslint-disable-next-line no-unreachable
       return false;
+    },
+    previewFormat() {
+      if (!this.content.format) return null;
+      return this.content.format.replaceAll('Y', 'y').replaceAll('D', 'd');
     },
     formatedValue() {
       return this.formatInputValue(this.variableValue);
