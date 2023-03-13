@@ -55,7 +55,6 @@
       :disabled-week-days="content.disabledWeekDays"
       :no-disabled-range="content.noDisabledRange"
       :model-type="modelType"
-      :utc="content.dateMode === 'datetime'"
       :position="content.menuPosition"
       :teleport="content.enableCalendarOnly ? null : body"
       :dpStyle="{ ...themeStyle }"
@@ -191,9 +190,11 @@ export default {
       // eslint-disable-next-line no-unreachable
       return false;
     },
+    /* https://github.com/date-fns/date-fns/blob/main/docs/unicodeTokens.md */
     previewFormat() {
-      if (!this.content.format) return null;
-      return this.content.format.replaceAll('Y', 'y').replaceAll('D', 'd');
+      const format = this.content.customFormat || this.content.format
+      if (!format) return null;
+      return format.replaceAll('Y', 'y').replaceAll('D', 'd').replaceAll('A', 'a');
     },
     formatedValue() {
       return this.formatInputValue(this.variableValue);
@@ -276,6 +277,7 @@ export default {
   },
   methods: {
     handleSelection(value) {
+      if (this.content.dateMode === 'datetime' && value) value = value.toISOString();
       const newValue = this.formatOutputValue(value);
       if (JSON.stringify(this.variableValue) === JSON.stringify(newValue))
         return;

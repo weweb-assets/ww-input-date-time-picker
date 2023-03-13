@@ -6,6 +6,7 @@ export default {
     customStylePropertiesOrder: [
       "lang",
       "format",
+      "customFormat",
       "orientation",
       "menuPosition",
       "enableCalendarOnly",
@@ -510,17 +511,39 @@ export default {
     },
     format: {
       label: {
-        en: "Preview format",
+          en: 'Format',
+          fr: 'Format',
       },
-      type: "Text",
-      bindable: true,
-      /* wwEditor:start */
-      bindingValidation: {
-        type: "string",
-        tooltip: 'A string following unicode rules: `"MM/dd/yyyy HH:mm"` [See unicode format](https://www.unicode.org/reports/tr35/tr35-dates.html#Date_Field_Symbol_Table)',
+      type: 'TextSelect',
+      options: {
+          options: [
+              { value: 'DD/MM/YYYY', label: { en: 'DD/MM/YYYY' } },
+              { value: 'MMMM D, YYYY', label: { en: 'MMMM D, YYYY' } },
+              { value: 'MMM D, YYYY', label: { en: 'MMM D, YYYY' } },
+              { value: 'h:mm A', label: { en: 'h:mm A' } },
+              { value: 'h:mm:ss A', label: { en: 'h:mm:ss A' } },
+              {
+                  value: 'MMM D, YYYY h:mm A',
+                  label: { en: 'MMM D, YYYY h:mm A' },
+              },
+          ],
       },
-      /* wwEditor:end */
-      defaultValue: "",
+      defaultValue: 'DD/MM/YYYY',
+    },
+    customFormat: {
+        label: { en: 'Custom Format', fr: 'Custom Format' },
+        type: 'Text',
+        options: {
+            placeholder: 'MMMM D, YYYY h:mm A',
+        },
+        bindable: true,
+        /* wwEditor:start */
+        bindingValidation: {
+          type: "string",
+          tooltip: 'A string following unicode rules: `"MM/dd/yyyy HH:mm"` [See unicode format](https://www.unicode.org/reports/tr35/tr35-dates.html#Date_Field_Symbol_Table)',
+        },
+        /* wwEditor:end */
+        defaultValue: '',
     },
     autoApply: {
       label: {
