@@ -3,19 +3,34 @@ export default {
     label: {
       en: "Date picker",
     },
+    icon: "calendar",
+    bubble: {
+      icon: "calendar",
+    },
     customStylePropertiesOrder: [
       "lang",
       "format",
       "customFormat",
-      "orientation",
-      "menuPosition",
-      "enableCalendarOnly",
-      ["enableLeftSidebar", "enableRightSidebar"],
       [
+        "displayTitle",
+        "orientation",
+        "menuPosition",
+        "enableCalendarOnly",
+        "calendarOnlyFit",
+        "enableLeftSidebar",
+        "enableRightSidebar",
+        "enableMultiCalendars",
+        "multiCalendars",
+        "multiCalendarsSolo",
+      ],
+      [
+        "stylesTitle",
         "themeFontFamily",
         "themeFontSize",
-        "themePreviewFontSize",
         "themeTimeFontSize",
+
+        "advancedStyles",
+        "themePreviewFontSize",
         "themeBorderRadius",
         "themeCellBorderRadius",
         "themeCellSize",
@@ -23,18 +38,21 @@ export default {
         "themeMenuMinWidth",
       ],
       [
+        "colorsTitle",
+        "themePrimaryColor",
+        "themeSecondaryColor",
         "themeBackgroundColor",
         "themeTextColor",
+        "themePrimaryTextColor",
         "themeHoverColor",
+        "themeDisabledColor",
+
+        "advancedColors",
         "themeHoverTextColor",
         "themeHoverIconColor",
-        "themePrimaryColor",
-        "themePrimaryTextColor",
-        "themeSecondaryColor",
         "themeBorderColor",
         "themeMenuBorderColor",
         "themeBorderHoverColor",
-        "themeDisabledColor",
         "themeScrollBarBackgroundColor",
         "themeScrollBarColor",
         "themeSuccessColor",
@@ -45,8 +63,10 @@ export default {
       ],
     ],
     customSettingsPropertiesOrder: [
-      "selectionMode",
+      "readonly",
       [
+        "selectionTitle",
+        "selectionMode",
         "initValueSingle",
         "initValueRangeStart",
         "initValueRangeEnd",
@@ -59,33 +79,31 @@ export default {
         "maxRange",
         "noDisabledRange",
       ],
-      "dateMode",
+      ["behaviorTitle", "autoApply", "closeOnAutoApply", "closeOnScroll"],
+      ["timeTitle", "dateMode", "timezone", "use24", "enableSeconds"],
       [
-        "timezone",
-        "enableSeconds",
-        "use24",
-        "enableMultiCalendars",
-        "multiCalendars",
-        "multiCalendarSolo",
-      ],
-      [
+        "datesTitle",
         "startDate",
         "minDate",
         "maxDate",
+
+        "advancedDates",
         "preventMinMaxNavigation",
         "ignoreTimeValidation",
         "allowedDates",
         "disabledDates",
         "disabledWeekDays",
       ],
-      ["autoApply", "closeOnAutoApply", "closeOnScroll"],
-      ["weekStart", "weekNumbers", "hideOffsetDates", "disableMonthYearSelect"],
-      "enableFlow",
-      ["flowHint", "flowSteps"],
+      [
+        "weeksAndMonthsTitle",
+        "weekStart",
+        "weekNumbers",
+        "hideOffsetDates",
+        "disableMonthYearSelect",
+      ],
+
+      ["flowTitle", "enableFlow", "flowHint", "flowSteps"],
     ],
-    bubble: {
-      icon: "calendar",
-    },
   },
   triggerEvents: [
     {
@@ -167,10 +185,133 @@ export default {
       /* wwEditor:end */
       hidden: (content) => content.selectionMode !== "multi",
     },
+    displayTitle: {
+      label: {
+        en: "Display",
+      },
+      type: "Title",
+      section: "style",
+      editorOnly: true,
+    },
+    stylesTitle: {
+      label: {
+        en: "Style",
+        fr: "Style",
+      },
+      type: "Title",
+      section: "style",
+      editorOnly: true,
+    },
+    colorsTitle: {
+      label: {
+        en: "Colors",
+        fr: "Colors",
+      },
+      type: "Title",
+      section: "style",
+      editorOnly: true,
+    },
+    selectionTitle: {
+      label: {
+        en: "Selection",
+      },
+      type: "Title",
+      section: "settings",
+      editorOnly: true,
+    },
+    behaviorTitle: {
+      label: {
+        en: "Behavior",
+      },
+      type: "Title",
+      section: "settings",
+      editorOnly: true,
+    },
+    timeTitle: {
+      label: {
+        en: "Time",
+      },
+      type: "Title",
+      section: "settings",
+      editorOnly: true,
+    },
+    datesTitle: {
+      label: {
+        en: "Dates",
+      },
+      type: "Title",
+      section: "settings",
+      editorOnly: true,
+    },
+    weeksAndMonthsTitle: {
+      label: {
+        en: "Weeks / Months",
+      },
+      type: "Title",
+      section: "settings",
+      editorOnly: true,
+    },
+    flowTitle: {
+      label: {
+        en: "Flow",
+      },
+      type: "Title",
+      section: "settings",
+      editorOnly: true,
+    },
+    advancedColors: {
+      label: { en: "Advanced" },
+      section: "style",
+      defaultValue: false,
+      type: "TextRadioGroup",
+      options: {
+        choices: [
+          { value: true, label: { en: "Show" } },
+          { value: false, label: { en: "Hide" } },
+        ],
+      },
+    },
+    advancedStyles: {
+      label: { en: "Advanced" },
+      section: "style",
+      defaultValue: false,
+      type: "TextRadioGroup",
+      options: {
+        choices: [
+          { value: true, label: { en: "Show" } },
+          { value: false, label: { en: "Hide" } },
+        ],
+      },
+    },
+    advancedDates: {
+      label: { en: "Advanced" },
+      section: "settings",
+      defaultValue: false,
+      type: "TextRadioGroup",
+      options: {
+        choices: [
+          { value: true, label: { en: "Show" } },
+          { value: false, label: { en: "Hide" } },
+        ],
+      },
+    },
     enableCalendarOnly: {
       label: { en: "Calendar only", fr: "Calendrier seul" },
       type: "OnOff",
       defaultValue: false,
+    },
+    calendarOnlyFit: {
+      label: { en: "Fit" },
+      section: "style",
+      defaultValue: "stretch",
+      type: "TextRadioGroup",
+      options: {
+        choices: [
+          { value: "stretch", label: { en: "Stretch" } },
+          { value: "center", label: { en: "Center" } },
+        ],
+      },
+      hidden: (content) => !content.enableCalendarOnly,
     },
     enableLeftSidebar: {
       label: { en: "Left sidebar" },
@@ -201,8 +342,8 @@ export default {
     },
     selectionMode: {
       label: {
-        en: "Selection",
-        fr: "Selection",
+        en: "Mode",
+        fr: "Mode",
       },
       type: "TextSelect",
       section: "settings",
@@ -281,7 +422,7 @@ export default {
     enableMultiCalendars: {
       label: { en: "Multi calendars", fr: "Calendriers multiple" },
       type: "OnOff",
-      section: "settings",
+      section: "style",
       defaultValue: false,
       hidden: (content) =>
         content.selectionMode !== "range" ||
@@ -292,21 +433,21 @@ export default {
         en: "Calendars number",
       },
       type: "Number",
-      section: "settings",
+      section: "style",
       defaultValue: 2,
       options: {
         min: 2,
         max: 4,
         step: 1,
       },
-      hidden: (content) => !content.enableMultiCalendars,
+      hidden: (content) =>!content.enableMultiCalendars,
     },
     multiCalendarsSolo: {
       label: { en: "Independant calendars", fr: "Calendriers indépendants" },
       type: "OnOff",
-      section: "settings",
+      section: "style",
       defaultValue: false,
-      hidden: (content) => !content.enableMultiCalendars,
+      hidden: (content) =>!content.enableMultiCalendars,
     },
     rangeMode: {
       label: { en: "Range mode", fr: "Range mode" },
@@ -604,7 +745,8 @@ export default {
       /* wwEditor:start */
       bindingValidation: {
         type: "string",
-        tooltip: 'A string from "0" to "6" for the day of the week, "0" is Sunday',
+        tooltip:
+          'A string from "0" to "6" for the day of the week, "0" is Sunday',
       },
       /* wwEditor:end */
       bindable: true,
@@ -645,6 +787,7 @@ export default {
       section: "settings",
       bindable: true,
       defaultValue: false,
+      hidden: (content) => !content.advancedDates,
     },
     ignoreTimeValidation: {
       label: {
@@ -654,6 +797,7 @@ export default {
       section: "settings",
       bindable: true,
       defaultValue: false,
+      hidden: (content) => !content.advancedDates,
     },
     startDate: {
       label: {
@@ -687,6 +831,7 @@ export default {
       },
       bindable: true,
       defaultValue: [],
+      hidden: (content) => !content.advancedDates,
     },
     disabledDates: {
       label: {
@@ -702,6 +847,7 @@ export default {
       },
       bindable: true,
       defaultValue: [],
+      hidden: (content) => !content.advancedDates,
     },
     disabledWeekDays: {
       label: {
@@ -728,11 +874,13 @@ export default {
       /* wwEditor:start */
       bindingValidation: {
         type: "string",
-        tooltip: 'A string from "0" to "6" for the day of the week, "0" is Sunday',
+        tooltip:
+          'A string from "0" to "6" for the day of the week, "0" is Sunday',
       },
       /* wwEditor:end */
       bindable: true,
       defaultValue: [],
+      hidden: (content) => !content.advancedDates,
     },
     noDisabledRange: {
       label: {
@@ -752,64 +900,90 @@ export default {
       },
       responsive: true,
     },
-    themeBorderRadius: generateThemeSizingConfig("Border radius", 4, 20),
+    themeFontSize: generateThemeSizingConfig("Font size", 16, 48),
+    themeTimeFontSize: generateThemeSizingConfig("Time font size", 32, 48),
+    themeBorderRadius: generateThemeSizingConfig("Border radius", 4, 20, true),
     themeCellBorderRadius: generateThemeSizingConfig(
       "Cell border radius",
       4,
-      20
+      20,
+      true
     ),
-    themeFontSize: generateThemeSizingConfig("Font size", 16, 48),
     themePreviewFontSize: generateThemeSizingConfig(
       "Preview font size",
       13,
-      48
+      48,
+      true
     ),
-    themeTimeFontSize: generateThemeSizingConfig("Time font size", 32, 48),
-    themeMenuMinWidth: generateThemeSizingConfig("Menu min width", 250, 300),
-    themeCellSize: generateThemeSizingConfig("Cell size", 35, 100),
-    themeCellPadding: generateThemeSizingConfig("Cell padding", 5, 32),
+    themeMenuMinWidth: generateThemeSizingConfig(
+      "Menu min width",
+      250,
+      300,
+      true
+    ),
+    themeCellSize: generateThemeSizingConfig("Cell size", 35, 100, true),
+    themeCellPadding: generateThemeSizingConfig("Cell padding", 5, 32, true),
+
+    themePrimaryColor: generateThemeColorConfig("Primary Color", "#1976d2"),
+    themeSecondaryColor: generateThemeColorConfig("Secondary Color", "#c0c4cc"),
     themeBackgroundColor: generateThemeColorConfig(
       "Background Color",
       "#ffffff"
     ),
     themeTextColor: generateThemeColorConfig("Text Color", "#212121"),
-    themeHoverColor: generateThemeColorConfig("Hover Color", "#f3f3f3"),
-    themeHoverTextColor: generateThemeColorConfig(
-      "Hover Text Color",
-      "#212121"
-    ),
-    themeHoverIconColor: generateThemeColorConfig(
-      "Hover Icon Color",
-      "#959595"
-    ),
-    themePrimaryColor: generateThemeColorConfig("Primary Color", "#1976d2"),
     themePrimaryTextColor: generateThemeColorConfig(
       "Primary Text Color",
       "#f8f5f5"
     ),
-    themeSecondaryColor: generateThemeColorConfig("Secondary Color", "#c0c4cc"),
-    themeBorderColor: generateThemeColorConfig("Border Color", "#ddd"),
-    themeMenuBorderColor: generateThemeColorConfig("Menu Border Color", "#ddd"),
+    themeHoverColor: generateThemeColorConfig("Hover Color", "#f3f3f3"),
+    themeDisabledColor: generateThemeColorConfig("Disabled Color", "#f6f6f6"),
+    themeHoverTextColor: generateThemeColorConfig(
+      "Hover Text Color",
+      "#212121",
+      true
+    ),
+    themeHoverIconColor: generateThemeColorConfig(
+      "Hover Icon Color",
+      "#959595",
+      true
+    ),
+    themeBorderColor: generateThemeColorConfig("Border Color", "#ddd", true),
+    themeMenuBorderColor: generateThemeColorConfig(
+      "Menu Border Color",
+      "#ddd",
+      true
+    ),
     themeBorderHoverColor: generateThemeColorConfig(
       "Border Hover Color",
-      "#aaaeb7"
+      "#aaaeb7",
+      true
     ),
-    themeDisabledColor: generateThemeColorConfig("Disabled Color", "#f6f6f6"),
     themeScrollBarBackgroundColor: generateThemeColorConfig(
       "Scrollbar background Color",
-      "#f3f3f3"
+      "#f3f3f3",
+      true
     ),
-    themeScrollBarColor: generateThemeColorConfig("Scrollbar Color", "#959595"),
-    themeSuccessColor: generateThemeColorConfig("Success Color", "#76d275"),
+    themeScrollBarColor: generateThemeColorConfig(
+      "Scrollbar Color",
+      "#959595",
+      true
+    ),
+    themeSuccessColor: generateThemeColorConfig(
+      "Success Color",
+      "#76d275",
+      true
+    ),
     themeSuccessDisabledColor: generateThemeColorConfig(
       "Success Disabled Color",
-      "#a3d9b1"
+      "#a3d9b1",
+      true
     ),
-    themeIconColor: generateThemeColorConfig("Icon Color", "#959595"),
-    themeDangerColor: generateThemeColorConfig("Danger Color", "#ff6f60"),
+    themeIconColor: generateThemeColorConfig("Icon Color", "#959595", true),
+    themeDangerColor: generateThemeColorConfig("Danger Color", "#ff6f60", true),
     themeHighlightColor: generateThemeColorConfig(
       "Highlight Color",
-      "#1976d219"
+      "#1976d219",
+      true
     ),
     triggerZone: {
       hidden: true,
@@ -858,7 +1032,7 @@ export default {
   },
 };
 
-function generateThemeColorConfig(label, defaultValue) {
+function generateThemeColorConfig(label, defaultValue, advanced) {
   return {
     label: {
       en: label,
@@ -868,10 +1042,11 @@ function generateThemeColorConfig(label, defaultValue) {
     bindable: true,
     responsive: true,
     state: true,
+    hidden: advanced ? (content) => !content.advancedColors : undefined,
   };
 }
 
-function generateThemeSizingConfig(label, defaultValue, max) {
+function generateThemeSizingConfig(label, defaultValue, max, advanced) {
   return {
     type: "Length",
     label: {
@@ -883,5 +1058,6 @@ function generateThemeSizingConfig(label, defaultValue, max) {
     },
     responsive: true,
     defaultValue: defaultValue + "px",
+    hidden: advanced ? (content) => !content.advancedStyles : undefined,
   };
 }

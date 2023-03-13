@@ -4,6 +4,7 @@
     <DatePicker
       ref="wwDatePicker"
       class="ww-date-time-picker"
+      :class="[{'calendar-only': content.enableCalendarOnly}, content.enableCalendarOnly && content.calendarOnlyFit]"
       :model-value="formatedValue"
       @update:model-value="handleSelection"
       :format="previewFormat"
@@ -320,4 +321,13 @@ export default {
 .dp__action_row {
   width: 100% !important;
 }
+</style>
+
+<style lang="scss" scoped>
+.calendar-only.stretch::v-deep .dp__outer_menu_wrap {
+    width: 100% !important;
+  }
+.calendar-only.center {
+    justify-content: center;
+  }
 </style>
