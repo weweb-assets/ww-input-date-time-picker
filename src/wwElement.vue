@@ -278,7 +278,9 @@ export default {
   },
   methods: {
     handleSelection(value) {
-      if (this.content.dateMode === 'datetime' && value) value = value.toISOString();
+      if (this.content.dateMode === 'datetime' && value) {
+        value = Array.isArray(value) ? value.map(date => date.toISOString()) : value.toISOString();
+      }
       const newValue = this.formatOutputValue(value);
       if (JSON.stringify(this.variableValue) === JSON.stringify(newValue))
         return;
