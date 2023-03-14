@@ -667,6 +667,7 @@ export default {
                   value: 'MMM D, YYYY h:mm A',
                   label: { en: 'MMM D, YYYY h:mm A' },
               },
+              { value: 'custom', label: { en: 'Custom' } },
           ],
       },
       defaultValue: 'DD/MM/YYYY',
@@ -685,6 +686,7 @@ export default {
         },
         /* wwEditor:end */
         defaultValue: '',
+        hidden: content => content.format !== 'custom'
     },
     autoApply: {
       label: {

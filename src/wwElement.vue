@@ -193,7 +193,7 @@ export default {
     },
     /* https://github.com/date-fns/date-fns/blob/main/docs/unicodeTokens.md */
     previewFormat() {
-      const format = this.content.customFormat || this.content.format
+      const format = this.content.format === 'custom' ? this.content.customFormat : this.content.format
       if (!format) return null;
       return format.replaceAll('Y', 'y').replaceAll('D', 'd').replaceAll('A', 'a');
     },
