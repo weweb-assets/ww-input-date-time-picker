@@ -469,9 +469,8 @@ export default {
       type: "OnOff",
       section: "settings",
       bindable: true,
-      defaultValue: false,
-      hidden: (content) =>
-        content.selectionMode !== "range" || content.rangeMode !== "free",
+      defaultValue: true,
+      hidden: (content) => true //content.selectionMode !== "range" || content.rangeMode !== "free",
     },
     autoRange: {
       label: {

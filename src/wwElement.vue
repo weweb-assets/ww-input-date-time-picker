@@ -1,6 +1,5 @@
 <template>
   <div>
-    <!-- SHOW ON CLICK -->
     <DatePicker
       ref="wwDatePicker"
       class="ww-date-time-picker"
@@ -21,7 +20,7 @@
       "
       :auto-range="content.rangeMode === 'auto' ? content.autoRange : null"
       :partial-range="
-        content.rangeMode === 'free' ? content.enablePartialRange : null
+        content.rangeMode === 'free'
       "
       :min-range="content.rangeMode === 'minmax' ? content.minRange : null"
       :max-range="content.rangeMode === 'minmax' ? content.maxRange : null"
@@ -195,7 +194,7 @@ export default {
     previewFormat() {
       const format = this.content.format === 'custom' ? this.content.customFormat : this.content.format
       if (!format) return null;
-      return format.replaceAll('Y', 'y').replaceAll('D', 'd').replaceAll('A', 'a');
+      return format.replace(/Y/g, 'y').replace(/D/g, 'd').replace(/A/g, 'a');
     },
     formatedValue() {
       return this.formatInputValue(this.variableValue);
@@ -304,6 +303,7 @@ export default {
         return { start: value[0], end: value[1] };
       else if (this.content.selectionMode === "multi") return value;
     },
+    /* wwEditor:start */
     getTestEvent() {
       let fakeDate = new Date().toISOString();
       if (this.content.dateMode === "month") fakeDate = "2023-03";
@@ -315,6 +315,7 @@ export default {
       else if (this.content.selectionMode === "multi")
         return { value: [fakeDate, fakeDate, fakeDate] };
     },
+    /* wwEditor:end */
   },
 };
 </script>
