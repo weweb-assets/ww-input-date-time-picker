@@ -88,7 +88,7 @@
 <script>
 import { computed } from "vue";
 import { DatePicker } from "./datepicker.js";
-import "v-calendar/dist/style.css";
+import "./style.css";
 
 export default {
   components: {
