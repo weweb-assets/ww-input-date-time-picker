@@ -20,7 +20,7 @@
       "
       :auto-range="content.rangeMode === 'auto' ? content.autoRange : null"
       :partial-range="
-        content.rangeMode === 'free'
+        content.rangeMode === 'free' ? content.enablePartialRange : null
       "
       :min-range="content.rangeMode === 'minmax' ? content.minRange : null"
       :max-range="content.rangeMode === 'minmax' ? content.maxRange : null"
@@ -278,7 +278,7 @@ export default {
   methods: {
     handleSelection(value) {
       if (this.content.dateMode === 'datetime' && value) {
-        value = Array.isArray(value) ? value.map(date => date.toISOString()) : value.toISOString();
+        value = Array.isArray(value) ? value.map(date => date ? date.toISOString() : null) : value.toISOString();
       }
       const newValue = this.formatOutputValue(value);
       if (JSON.stringify(this.variableValue) === JSON.stringify(newValue))
@@ -293,7 +293,7 @@ export default {
       if (!value) return null;
       else if (this.content.selectionMode === "single") return value;
       else if (this.content.selectionMode === "range")
-        return [value.start, value.end];
+        return [value.start, value.end].filter(value => value);
       else if (this.content.selectionMode === "multi") return value;
     },
     formatOutputValue(value) {

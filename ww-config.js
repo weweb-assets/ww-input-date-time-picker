@@ -470,7 +470,7 @@ export default {
       section: "settings",
       bindable: true,
       defaultValue: true,
-      hidden: (content) => true //content.selectionMode !== "range" || content.rangeMode !== "free",
+      hidden: (content) => content.selectionMode !== "range" || content.rangeMode !== "free",
     },
     autoRange: {
       label: {

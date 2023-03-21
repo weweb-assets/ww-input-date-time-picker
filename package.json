@@ -9,6 +9,5 @@
     "@weweb/cli": "latest"
   },
   "dependencies": {
-    "@vuepic/vue-datepicker": "^3.6.8"
   }
 }
