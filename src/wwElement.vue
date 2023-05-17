@@ -58,6 +58,7 @@
       :position="content.menuPosition"
       :teleport="content.enableCalendarOnly ? null : body"
       :dpStyle="{ ...themeStyle }"
+      :readonly="isReadOnly"
       :key="dpKey"
     >
       <template #dp-input="{ value }">
