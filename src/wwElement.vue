@@ -20,7 +20,7 @@
             :multi-dates="content.selectionMode === 'multi'"
             :multi-dates-limit="content.multiDatesLimit ? content.multiDatesLimit : null"
             :auto-range="content.rangeMode === 'auto' ? content.autoRange : null"
-            :partial-range="content.enableCalendarOnly && content.rangeMode === 'free' ? true : content.rangeMode === 'free' ? content.enablePartialRange : null"
+            :partial-range="content.rangeMode === 'free' ? content.enablePartialRange : null"
             :min-range="content.rangeMode === 'minmax' ? content.minRange : null"
             :max-range="content.rangeMode === 'minmax' ? content.maxRange : null"
             :multi-calendars="content.enableMultiCalendars ? content.multiCalendars : false"
