@@ -472,7 +472,7 @@ export default {
             section: "settings",
             bindable: true,
             defaultValue: true,
-            hidden: (content) => content.selectionMode !== "range" || content.rangeMode !== "free",
+            hidden: (content) => content.selectionMode !== "range" || content.rangeMode !== "free" || (content.rangeMode === "free" && content.enableCalendarOnly),
         },
         autoRange: {
             label: {
