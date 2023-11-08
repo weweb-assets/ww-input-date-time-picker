@@ -442,14 +442,16 @@ export default {
                 max: 4,
                 step: 1,
             },
-            hidden: (content) => !content.enableMultiCalendars,
+            hidden: (content) => 
+                content.selectionMode !== "range" || !["datetime", "date", "week"].includes(content.dateMode) || !content.enableMultiCalendars,
         },
         multiCalendarsSolo: {
             label: { en: "Independant calendars", fr: "Calendriers indépendants" },
             type: "OnOff",
             section: "style",
             defaultValue: false,
-            hidden: (content) => !content.enableMultiCalendars,
+            hidden: (content) => 
+                content.selectionMode !== "range" || !["datetime", "date", "week"].includes(content.dateMode) || !content.enableMultiCalendars,
         },
         rangeMode: {
             label: { en: "Range mode", fr: "Range mode" },
