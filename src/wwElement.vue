@@ -32,6 +32,7 @@
             :is-24="content.use24"
             :autoApply="content.autoApply"
             :close-on-auto-apply="content.closeOnAutoApply"
+            :close-on-scroll="content.closeOnScroll"
             :flow="content.enableFlow ? content.flowSteps : null"
             :timezone="timezone"
             :week-numbers="content.weekNumbers === 'none' ? null : content.weekNumbers"
