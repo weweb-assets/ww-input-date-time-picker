@@ -93,7 +93,7 @@
     class="required-handler"
     type="datetime"
     :required="content.required"
-    id=""
+    :value="formatedValue"
   />
 </template>
 
