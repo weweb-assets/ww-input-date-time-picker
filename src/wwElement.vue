@@ -89,7 +89,12 @@
       </template>
     </DatePicker>
   </div>
-  <input type="datetime" :required="content.required" id="" />
+  <input
+    class="required-handler"
+    type="datetime"
+    :required="content.required"
+    id=""
+  />
 </template>
 
 <script>
@@ -346,5 +351,8 @@ export default {
 }
 .calendar-only.center {
   justify-content: center;
+}
+.required-handler {
+  display: none;
 }
 </style>
