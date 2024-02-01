@@ -66,7 +66,6 @@
       :teleport="content.enableCalendarOnly ? null : body"
       :dpStyle="{ ...themeStyle }"
       :readonly="isReadOnly"
-      :required="content.required"
       :key="dpKey"
     >
       <template #dp-input="{ value }">
@@ -90,6 +89,7 @@
       </template>
     </DatePicker>
   </div>
+  <input type="datetime" :required="content.required" id="" />
 </template>
 
 <script>
