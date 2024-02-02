@@ -353,7 +353,9 @@ export default {
   justify-content: center;
 }
 .required-handler {
-  visibility: hidden;
+  opacity: 0;
+  width: 0;
+  height: 0;
   position: absolute;
   pointer-events: none;
 }
