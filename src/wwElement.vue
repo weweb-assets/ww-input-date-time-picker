@@ -91,7 +91,7 @@
   </div>
   <input
     class="required-handler"
-    type="datetime"
+    type="datetime-local"
     :required="content.required"
     :value="formatedValue"
   />
