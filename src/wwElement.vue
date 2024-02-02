@@ -354,7 +354,7 @@ export default {
 }
 .required-handler {
   opacity: 0;
-  width: 0;
+  width: 100%;
   height: 0;
   position: absolute;
   pointer-events: none;
