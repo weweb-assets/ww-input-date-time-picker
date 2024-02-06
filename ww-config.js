@@ -80,7 +80,7 @@ export default {
         "maxRange",
         "noDisabledRange",
       ],
-      ["behaviorTitle", "autoApply", "closeOnAutoApply", "closeOnScroll"],
+      ["behaviorTitle", "autoApply", "closeOnAutoApply"],
       ["timeTitle", "dateMode", "timezone", "use24", "enableSeconds"],
       [
         "datesTitle",
@@ -734,15 +734,6 @@ export default {
       section: "settings",
       bindable: true,
       defaultValue: true,
-    },
-    closeOnScroll: {
-      label: {
-        en: "Close on page scroll",
-      },
-      type: "OnOff",
-      section: "settings",
-      bindable: true,
-      defaultValue: false,
     },
     weekNumbers: {
       label: { en: "Week numbers" },
