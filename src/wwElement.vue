@@ -74,7 +74,7 @@
           :index="0"
           :item="null"
           :data="{ preview: value, value: formatOutputValue(formatedValue) }"
-          is-
+          is-repeat
         >
           <wwLayout path="triggerZone" />
         </wwLayoutItemContext>
