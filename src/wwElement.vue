@@ -280,7 +280,7 @@ export default {
         "--dp-danger-color": this.content.themeDangerColor,
         "--dp-highlight-color": this.content.themeHighlightColor,
         // GENERAL
-        "--dp-font-family": this.content.themeFontFamily || "Inter",
+        "--dp-font-family": this.content.themeFontFamily || "unset",
         "--dp-border-radius": this.content.themeBorderRadius,
         "--dp-cell-border-radius": this.content.themeCellBorderRadius,
         "--dp-font-size": this.content.themeFontSize,
