@@ -6,7 +6,8 @@
     "serve": "weweb serve"
   },
   "devDependencies": {
-    "@weweb/cli": "latest"
+    "@weweb/cli": "latest",
+    "prettier": "^3.2.5"
   },
   "dependencies": {
     "@vuepic/vue-datepicker": "3.6.8"
