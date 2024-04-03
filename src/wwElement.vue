@@ -1,80 +1,35 @@
 <template>
   <div>
-    <DatePicker
-      ref="wwDatePicker"
-      class="ww-date-time-picker"
-      :class="[
-        { 'calendar-only': content.enableCalendarOnly },
-        content.enableCalendarOnly && content.calendarOnlyFit,
-      ]"
-      :model-value="formatedValue"
-      @update:model-value="handleSelection"
-      :format="previewFormat"
-      :clearable="false"
-      :locale="locale"
-      :time-picker="content.dateMode === 'time'"
-      :month-picker="content.dateMode === 'month'"
-      :year-picker="content.dateMode === 'year'"
-      :week-picker="content.dateMode === 'week'"
-      :range="content.selectionMode === 'range'"
-      :multi-dates="content.selectionMode === 'multi'"
-      :multi-dates-limit="
-        content.multiDatesLimit ? content.multiDatesLimit : null
-      "
-      :auto-range="content.rangeMode === 'auto' ? content.autoRange : null"
-      :partial-range="
-        content.enableCalendarOnly && content.rangeMode === 'free'
-          ? true
-          : content.rangeMode === 'free'
-          ? content.enablePartialRange
-          : null
-      "
-      :min-range="content.rangeMode === 'minmax' ? content.minRange : null"
-      :max-range="content.rangeMode === 'minmax' ? content.maxRange : null"
-      :multi-calendars="
-        content.enableMultiCalendars ? content.multiCalendars : false
-      "
-      :multi-calendars-solo="content.multiCalendarsSolo"
-      :inline="content.enableCalendarOnly"
-      :vertical="content.orientation === 'vertical'"
-      :enable-time-picker="
-        content.dateMode === 'datetime' || content.dateMode === 'time'
-      "
-      :enable-seconds="content.enableSeconds"
-      :is-24="content.use24"
-      :autoApply="content.autoApply"
-      :close-on-auto-apply="content.closeOnAutoApply"
-      :flow="content.enableFlow ? content.flowSteps : null"
-      :timezone="timezone"
-      :week-numbers="
-        content.weekNumbers === 'none' ? null : content.weekNumbers
-      "
-      :hide-offset-dates="content.hideOffsetDates"
-      :min-date="content.minDate"
-      :max-date="content.maxDate"
-      :prevent-min-max-navigation="content.preventMinMaxNavigation"
-      :start-date="content.startDate"
-      :week-start="content.weekStart"
-      :ignore-time-validation="content.ignoreTimeValidation"
-      :disable-month-year-select="content.disableMonthYearSelect"
-      :allowed-dates="content.allowedDates"
-      :disabled-dates="content.disabledDates"
-      :disabled-week-days="content.disabledWeekDays"
-      :no-disabled-range="content.noDisabledRange"
-      :model-type="modelType"
-      :position="content.menuPosition || 'center'"
-      :teleport="content.enableCalendarOnly ? null : body"
-      :dpStyle="{ ...themeStyle }"
-      :readonly="isReadOnly"
-      :key="dpKey"
-    >
+    <DatePicker ref="wwDatePicker" class="ww-date-time-picker" :class="[
+      { 'calendar-only': content.enableCalendarOnly },
+      content.enableCalendarOnly && content.calendarOnlyFit,
+    ]" :model-value="formatedValue" @update:model-value="handleSelection" :format="previewFormat" :clearable="false"
+      :locale="locale" :time-picker="content.dateMode === 'time'" :month-picker="content.dateMode === 'month'"
+      :year-picker="content.dateMode === 'year'" :week-picker="content.dateMode === 'week'"
+      :range="content.selectionMode === 'range'" :multi-dates="content.selectionMode === 'multi'" :multi-dates-limit="content.multiDatesLimit ? content.multiDatesLimit : null
+        " :auto-range="content.rangeMode === 'auto' ? content.autoRange : null" :partial-range="content.enableCalendarOnly && content.rangeMode === 'free'
+    ? true
+    : content.rangeMode === 'free'
+      ? content.enablePartialRange
+      : null
+    " :min-range="content.rangeMode === 'minmax' ? content.minRange : null"
+      :max-range="content.rangeMode === 'minmax' ? content.maxRange : null" :multi-calendars="content.enableMultiCalendars ? content.multiCalendars : false
+        " :multi-calendars-solo="content.multiCalendarsSolo" :inline="content.enableCalendarOnly"
+      :vertical="content.orientation === 'vertical'" :enable-time-picker="content.dateMode === 'datetime' || content.dateMode === 'time'
+        " :enable-seconds="content.enableSeconds" :is-24="content.use24" :autoApply="content.autoApply"
+      :close-on-auto-apply="content.closeOnAutoApply" :flow="content.enableFlow ? content.flowSteps : null"
+      :timezone="timezone" :week-numbers="content.weekNumbers === 'none' ? null : content.weekNumbers
+        " :hide-offset-dates="content.hideOffsetDates" :min-date="content.minDate" :max-date="content.maxDate"
+      :prevent-min-max-navigation="content.preventMinMaxNavigation" :start-date="content.startDate"
+      :week-start="content.weekStart" :ignore-time-validation="content.ignoreTimeValidation"
+      :disable-month-year-select="content.disableMonthYearSelect" :allowed-dates="content.allowedDates"
+      :disabled-dates="content.disabledDates" :disabled-week-days="content.disabledWeekDays"
+      :no-disabled-range="content.noDisabledRange" :model-type="modelType" :position="content.menuPosition || 'center'"
+      :teleport="content.enableCalendarOnly ? null : body" :dpStyle="{ ...themeStyle }" :readonly="isReadOnly"
+      :key="dpKey" :day-names="['M', 'T', 'W', 'T', 'F', 'S', 'S']">
       <template #dp-input="{ value }">
-        <wwLayoutItemContext
-          :index="0"
-          :item="null"
-          :data="{ preview: value, value: formatOutputValue(formatedValue) }"
-          is-repeat
-        >
+        <wwLayoutItemContext :index="0" :item="null" :data="{ preview: value, value: formatOutputValue(formatedValue) }"
+          is-repeat>
           <wwLayout path="triggerZone" />
         </wwLayoutItemContext>
       </template>
@@ -89,12 +44,7 @@
       </template>
     </DatePicker>
   </div>
-  <input
-    class="required-handler"
-    type="text"
-    :required="content.required"
-    :value="formatedValue"
-  />
+  <input class="required-handler" type="text" :required="content.required" :value="formatedValue" />
 </template>
 
 <script>
@@ -120,13 +70,13 @@ export default {
       props.content.selectionMode === "single"
         ? props.content.initValueSingle || null
         : props.content.selectionMode === "range"
-        ? {
+          ? {
             start: props.content.initValueRangeStart || null,
             end: props.content.initValueRangeEnd || null,
           }
-        : Array.isArray(props.content.initValueMulti)
-        ? props.content.initValueMulti
-        : []
+          : Array.isArray(props.content.initValueMulti)
+            ? props.content.initValueMulti
+            : []
     );
     const { value: variableValue, setValue } =
       wwLib.wwVariable.useComponentVariable({
@@ -349,9 +299,11 @@ export default {
 .calendar-only.stretch::v-deep .dp__outer_menu_wrap {
   width: 100% !important;
 }
+
 .calendar-only.center {
   justify-content: center;
 }
+
 .required-handler {
   opacity: 0;
   width: 100%;
