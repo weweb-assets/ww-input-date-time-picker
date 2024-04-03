@@ -963,7 +963,7 @@ export default {
     themeDisabledColor: generateThemeColorConfig("Disabled Color", "#f6f6f6"),
     themeHoverTextColor: generateThemeColorConfig(
       "Hover Text Color",
-      "#212121",
+      "#fff",
       true
     ),
     themeHoverIconColor: generateThemeColorConfig(
