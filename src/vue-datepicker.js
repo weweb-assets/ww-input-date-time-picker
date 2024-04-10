@@ -1254,7 +1254,12 @@ const Hl = (e, n, a, t) => {
   }, N = (P, y) => {
     if (t.autoPosition) {
       const { left: S, width: b } = A(P), { left: U, right: X } = y.getBoundingClientRect();
-      return U <= 0 || U <= S ? I(S) : X >= document.documentElement.clientWidth ? O(S, b) : L(S, b);
+      if(U < 0){
+        return I(S)
+      }
+      if(X > wwLib.getFrontDocument().documentElement.clientWidth) {
+        return O(S, b)
+      }
     }
   }, j = (P, y) => {
     const { height: S } = y.getBoundingClientRect(), { top: b, height: U } = P.getBoundingClientRect(), q = window.innerHeight - b - U, _ = b;
@@ -1270,7 +1275,7 @@ const Hl = (e, n, a, t) => {
     }
     return !0;
   }, ce = function(P) {
-    return !P || P === document.body ? window : re(P) ? P : ce(P.parentNode);
+    return !P || P === wwLib.getFrontDocument().body ? window : re(P) ? P : ce(P.parentNode);
   };
   return { openOnTop: d, menuPosition: o, setMenuPosition: Y, setInitialPosition: c, getScrollableParent: ce };
 }, vt = [
