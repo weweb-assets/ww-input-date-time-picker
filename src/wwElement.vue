@@ -243,7 +243,7 @@ export default {
     modelType() {
       if (this.content.dateMode === "date") return "yyyy-MM-dd";
       if (this.content.dateMode === "time") return "HH:mm:SS";
-      if (this.content.dateMode === "month") return "yyyy-M";
+      if (this.content.dateMode === "month") return "yyyy-MM";
       return null;
     },
     isReadOnly() {
