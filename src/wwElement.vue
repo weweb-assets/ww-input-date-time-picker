@@ -65,7 +65,6 @@
       :position="content.menuPosition || 'center'"
       :dpStyle="{ ...themeStyle }"
       :readonly="isReadOnly"
-      :teleport-center="false"
       :key="dpKey"
     >
       <template #dp-input="{ value }">
