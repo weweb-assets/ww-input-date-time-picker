@@ -66,6 +66,7 @@
       :teleport="!content.enableCalendarOnly"
       :dpStyle="{ ...themeStyle }"
       :readonly="isReadOnly"
+      :teleport-center="false"
       :key="dpKey"
     >
       <template #dp-input="{ value }">
