@@ -63,7 +63,7 @@
       :no-disabled-range="content.noDisabledRange"
       :model-type="modelType"
       :position="content.menuPosition || 'center'"
-      :teleport="content.enableCalendarOnly ? null : body"
+      :teleport="content.enableCalendarOnly"
       :dpStyle="{ ...themeStyle }"
       :readonly="isReadOnly"
       :key="dpKey"
