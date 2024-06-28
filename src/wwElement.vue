@@ -63,7 +63,6 @@
       :no-disabled-range="content.noDisabledRange"
       :model-type="modelType"
       :position="content.menuPosition || 'center'"
-      :teleport="content.enableCalendarOnly ? null : body"
       :dpStyle="{ ...themeStyle }"
       :readonly="isReadOnly"
       :key="dpKey"
@@ -98,7 +97,7 @@
 </template>
 
 <script>
-import DatePicker from "./vue-datepicker.js";
+import DatePicker from "@vuepic/vue-datepicker";
 import "./main.css";
 import { computed, ref } from "vue";
 
