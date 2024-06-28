@@ -97,7 +97,7 @@
 </template>
 
 <script>
-import DatePicker from "./vue-datepicker.js";
+import DatePicker from "@vuepic/vue-datepicker";
 import "./main.css";
 import { computed, ref } from "vue";
 
