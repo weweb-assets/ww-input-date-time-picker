@@ -265,6 +265,7 @@ export default {
                 "--dp-cell-size": this.content.themeCellSize,
                 "--dp-cell-padding": this.content.themeCellPadding,
                 "--dp-menu-min-width": this.content.themeMenuMinWidth,
+                "--dp-menu-position": this.content.fixedMenu ? "fixed" : "absolute",
             };
         },
     },
