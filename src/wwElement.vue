@@ -295,6 +295,17 @@ export default {
             else if (this.content.selectionMode === "range") return { start: value[0], end: value[1] };
             else if (this.content.selectionMode === "multi") return value;
         },
+        clearValue() {
+            const clearValue = this.content.selectionMode === "single"
+                ? null
+                : this.content.selectionMode === "range"
+                ? {
+                      start: null,
+                      end: null,
+                  }
+                : []
+            this.setValue(clearValue);
+        },
         /* wwEditor:start */
         getTestEvent() {
             let fakeDate = new Date().toISOString();
