@@ -15,7 +15,6 @@ export default {
         "displayTitle",
         "orientation",
         "menuPosition",
-        "fixedMenu",
         "enableCalendarOnly",
         "calendarOnlyFit",
         "enableLeftSidebar",
@@ -354,14 +353,6 @@ export default {
       classes: true,
       responsive: true,
       defaultValue: "center",
-    },
-    fixedMenu: {
-      label: { en: "Fixed menu", fr: "Menu fixe" },
-      type: "OnOff",
-      defaultValue: false,
-      states: true,
-      classes: true,
-      responsive: true,
     },
     selectionMode: {
       label: {

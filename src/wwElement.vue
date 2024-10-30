@@ -55,7 +55,6 @@
             :no-disabled-range="content.noDisabledRange"
             :model-type="modelType"
             :position="content.menuPosition || 'center'"
-            :teleport="content.enableCalendarOnly ? null : body"
             :dpStyle="{ ...themeStyle }"
             :readonly="isReadOnly || isEditing"
             :key="dpKey"
@@ -265,7 +264,6 @@ export default {
                 "--dp-cell-size": this.content.themeCellSize,
                 "--dp-cell-padding": this.content.themeCellPadding,
                 "--dp-menu-min-width": this.content.themeMenuMinWidth,
-                "--dp-menu-position": this.content.fixedMenu ? "fixed" : "absolute",
             };
         },
     },
