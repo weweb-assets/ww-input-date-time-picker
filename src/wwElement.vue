@@ -317,7 +317,7 @@ export default {
 </style>
 
 <style lang="scss" scoped>
-.calendar-only.stretch:deep .dp__outer_menu_wrap {
+.calendar-only.stretch:deep(.dp__outer_menu_wrap) {
     width: 100% !important;
 }
 .calendar-only.center {
