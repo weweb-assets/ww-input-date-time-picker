@@ -120,6 +120,12 @@ export default {
       getTestEvent: "getTestEvent",
     },
   ],
+  actions: [
+    {
+      label: 'Clear',
+      action: 'clearValue',
+    }
+  ],
   properties: {
     initValueSingle: {
       label: {

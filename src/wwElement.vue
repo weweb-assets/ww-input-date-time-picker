@@ -55,7 +55,6 @@
             :no-disabled-range="content.noDisabledRange"
             :model-type="modelType"
             :position="content.menuPosition || 'center'"
-            :teleport="content.enableCalendarOnly ? null : body"
             :dpStyle="{ ...themeStyle }"
             :readonly="isReadOnly || isEditing"
             :key="dpKey"
@@ -294,6 +293,17 @@ export default {
             else if (this.content.selectionMode === "single") return value;
             else if (this.content.selectionMode === "range") return { start: value[0], end: value[1] };
             else if (this.content.selectionMode === "multi") return value;
+        },
+        clearValue() {
+            const clearValue = this.content.selectionMode === "single"
+                ? null
+                : this.content.selectionMode === "range"
+                ? {
+                      start: null,
+                      end: null,
+                  }
+                : []
+            this.setValue(clearValue);
         },
         /* wwEditor:start */
         getTestEvent() {
