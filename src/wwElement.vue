@@ -55,6 +55,7 @@
             :no-disabled-range="content.noDisabledRange"
             :model-type="modelType"
             :position="content.menuPosition || 'center'"
+            :teleport=" (content.enableCalendarOnly || content.stickedDatePicker) ? null : body"
             :dpStyle="{ ...themeStyle }"
             :readonly="isReadOnly || isEditing"
             :key="dpKey"

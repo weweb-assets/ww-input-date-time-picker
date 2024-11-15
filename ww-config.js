@@ -16,6 +16,7 @@ export default {
         "orientation",
         "menuPosition",
         "enableCalendarOnly",
+        "stickedDatePicker",
         "calendarOnlyFit",
         "enableLeftSidebar",
         "enableRightSidebar",
@@ -308,6 +309,16 @@ export default {
       defaultValue: false,
       states: true,
       classes: true,
+    },
+    stickedDatePicker: {
+      label: { en: "Sticked date picker", fr: "Date picker fixé" },
+      type: "OnOff",
+      defaultValue: false,
+      states: true,
+      classes: true,
+      propertyHelp: {
+        tooltip: "If set to `true`, the date picker will be rendered at trigger button level and not above all elements. This may be useful in the case of a date picker in a pop-up.",
+      },
     },
     calendarOnlyFit: {
       label: { en: "Fit" },
