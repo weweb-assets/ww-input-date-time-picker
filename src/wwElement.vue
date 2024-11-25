@@ -10,6 +10,7 @@
             :day-names="customDayNames"
             :model-value="formatedValue"
             @update:model-value="handleSelection"
+            :format-locale="formatLocale"
             :format="previewFormat"
             :clearable="false"
             :locale="locale"
@@ -87,6 +88,7 @@
 
 <script>
 import DatePicker from "./vue-datepicker.js";
+import * as DateFnsLocal from 'date-fns/locale';
 import "./main.css";
 import { computed, ref } from "vue";
 
@@ -201,6 +203,13 @@ export default {
             }
 
             return this.content.lang;
+        },
+        formatLocale() {
+            try {
+                return DateFnsLocal[this.locale];
+            } catch (e) {
+                return "en";
+            }
         },
         timezone() {
             if (!this.content.timezone || this.content.timezone === "locale") return null;
