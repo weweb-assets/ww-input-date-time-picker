@@ -235,7 +235,7 @@ export default {
                 : this.wwElementState.props.readonly;
         },
         customDayNames() {
-            if (this.content.lang == "ar") {
+            if (this.locale == "ar") {
                 /*
                     Sun - أحد (Ahad)
                     Mon - إثن (Ithn)
