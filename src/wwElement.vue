@@ -7,8 +7,10 @@
                 { 'calendar-only': content.enableCalendarOnly },
                 content.enableCalendarOnly && content.calendarOnlyFit,
             ]"
+            :day-names="customDayNames"
             :model-value="formatedValue"
             @update:model-value="handleSelection"
+            :format-locale="formatLocale"
             :format="previewFormat"
             :clearable="false"
             :locale="locale"
@@ -86,6 +88,7 @@
 
 <script>
 import DatePicker from "./vue-datepicker.js";
+import * as DateFnsLocal from 'date-fns/locale';
 import "./main.css";
 import { computed, ref } from "vue";
 
@@ -201,6 +204,13 @@ export default {
 
             return this.content.lang;
         },
+        formatLocale() {
+            try {
+                return DateFnsLocal[this.locale];
+            } catch (e) {
+                return "en";
+            }
+        },
         timezone() {
             if (!this.content.timezone || this.content.timezone === "locale") return null;
             return this.content.timezone;
@@ -232,6 +242,23 @@ export default {
             return this.wwElementState.props.readonly === undefined
                 ? this.content.readonly
                 : this.wwElementState.props.readonly;
+        },
+        customDayNames() {
+            if (this.locale == "ar") {
+                /*
+                    Sun - أحد (Ahad)
+                    Mon - إثن (Ithn)
+                    Tue - ثلاث (Thulath)
+                    Wed - أربع (Arba')
+                    Thu - خمس (Khams)
+                    Fri - جمعة (Jumu'ah)
+                    Sat - سبت (Sabt)
+                */
+                const arDayList = ['أحد','إثن','ثلاث','أربع','خمس','جمعة','سبت'];
+                const weekStartIndex = this.content.weekStart; // 0 to 6
+                return arDayList.slice(weekStartIndex).concat(arDayList.slice(0, weekStartIndex));
+            }
+            return null;
         },
         themeStyle() {
             return {
