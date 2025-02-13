@@ -77,7 +77,7 @@ Example:
 
 {"uid":"data-input-trigger-icon","tag":"ww-icon","name":"Calendar Icon","states":[{"id":"_wwHover","label":"hover"}],"props":{"default":{"icon":"fas fa-calendar","color":"#959595","fontSize":"16"}},"styles":{"default":{"flex":"0 0 auto"}}}
 
-{"uid":"data-input-trigger-text","tag":"ww-text","name":"Date Text","states":[{"id":"_wwHover","label":"hover"}],"props":{"default":{"tag":"p","text":{"en":{"code":"context.item.data?.['preview'] || 'Select a date'","__wwtype":"f"}}}},"styles":{"default":{"width":"100%","color":"#212121","fontSize":"14px"}}}
+{"uid":"data-input-trigger-text","tag":"ww-text","name":"Date Text","states":[{"id":"_wwHover","label":"hover"}],"props":{"default":{"tag":"p","text":{"en":{"wwJavascript":"return context.item.data?.['preview'] || 'Select a date'"}}}},"styles":{"default":{"width":"100%","color":"#212121","fontSize":"14px"}}}
 
 {"uid":"select-date-button","tag":"ww-button","props":{"default":{"text":"Select date","disabled":false,"buttonType":"button"}}}
 
