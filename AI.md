@@ -68,8 +68,8 @@ Renders a configurable date/time picker interface that supports various selectio
 - flowSteps: string[] - Flow step order. Default: ["month", "year", "calendar", "time", "minutes", "hours", "seconds"]
 
 ***Slots:***
-- triggerZone: (array of elements) - Flexbox container acting as the trigger button for the date picker
-- actionSelectElement: (element) ww-button - Select button in the action row
+- triggerZone: (array of elements) - Flexbox container that serves as the clickable trigger for opening the date picker. This slot MUST be defined with at least one element inside to create the clickable interface that opens the calendar view. Typically contains a stylized div with selected date(s) or a placeholder text and a calendar icon.
+- actionSelectElement: (element) ww-button - Button element that appears at the bottom of the calendar popup for confirming/selecting the date. This slot MUST be defined to provide users with a way to apply their date selection when autoApply is set to false. Typically contains a button with a "Select date" label.
 
 ***Exposed Variables:***
 - value: Selected value (single mode) or array of selected values (multiple mode). Access using variables['current_element_uid-value']
