@@ -120,12 +120,26 @@ export default {
       event: { value: "2023-03-02T14:54:54.727Z" },
       getTestEvent: "getTestEvent",
     },
+    {
+      name: "flowStep",
+      label: { en: "On flow step" },
+      event: { value: 1 },
+      getTestEvent: "getTestEvent",
+    },
   ],
   actions: [
     {
-      label: 'Clear',
-      action: 'clearValue',
-    }
+      label: "Clear",
+      action: "clearValue",
+    },
+    {
+      label: "Open Menu",
+      action: "openMenu",
+    },
+    {
+      label: "Close Menu",
+      action: "closeMenu",
+    },
   ],
   properties: {
     initValueSingle: {
@@ -234,6 +248,7 @@ export default {
       type: "Title",
       section: "settings",
       editorOnly: true,
+      hidden: (content) => content.dateMode === "time",
     },
     timeTitle: {
       label: {
@@ -318,7 +333,8 @@ export default {
       classes: true,
       bindable: true,
       propertyHelp: {
-        tooltip: "If set to `true`, the date picker will be rendered at trigger button level and not above all elements. This may be useful in the case of a date picker in a pop-up.",
+        tooltip:
+          "If set to `true`, the date picker will be rendered at trigger button level and not above all elements. This may be useful in the case of a date picker in a pop-up.",
       },
     },
     calendarOnlyFit: {
@@ -743,6 +759,7 @@ export default {
       section: "settings",
       bindable: true,
       defaultValue: false,
+      // hidden: (content) => content.dateMode === "time",
     },
     closeOnAutoApply: {
       label: {
@@ -752,6 +769,7 @@ export default {
       section: "settings",
       bindable: true,
       defaultValue: true,
+      // hidden: (content) => content.dateMode === "time",
     },
     weekNumbers: {
       label: { en: "Week numbers" },
