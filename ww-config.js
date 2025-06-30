@@ -281,6 +281,14 @@ export default {
       type: "Title",
       section: "settings",
       editorOnly: true,
+      /* wwEditor:start */
+      propertyHelp: {
+        tooltip: `Define the selecting order. Position in the array will specify the execution step. When you overwrite the execution step, the flow is reset. <br>
+        <br>
+        <a href="https://vue3datepicker.com/props/modes/#flow" target="_blank">Flow modes documentation</a>
+        `,
+      },
+      /* wwEditor:end */
     },
     advancedColors: {
       label: { en: "Advanced" },
@@ -651,7 +659,18 @@ export default {
       section: "settings",
       options: {
         item: {
-          type: "Text",
+          type: "TextSelect",
+          options: {
+            options: [
+              { value: "month", label: { en: "Month" } },
+              { value: "year", label: { en: "Year" } },
+              { value: "calendar", label: { en: "Calendar" } },
+              { value: "time", label: { en: "Time" } },
+              { value: "minutes", label: { en: "Minutes" } },
+              { value: "hours", label: { en: "Hours" } },
+              { value: "seconds", label: { en: "Seconds" } },
+            ],
+          },
         },
         movable: true,
         getItemLabel(_, index) {

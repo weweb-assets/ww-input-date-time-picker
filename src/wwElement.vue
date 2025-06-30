@@ -220,69 +220,7 @@ export default {
       return format.replace(/Y/g, "y").replace(/D/g, "d").replace(/A/g, "a");
     },
     formatedValue() {
-      console.log(
-        "🔍 formatedValue - variableValue:",
-        this.variableValue,
-        typeof this.variableValue
-      );
-      const value = this.formatInputValue(this.variableValue);
-      console.log(
-        "🔍 formatedValue - after formatInputValue:",
-        value,
-        typeof value
-      );
-
-      // Ensure we don't pass invalid values to the DatePicker
-      if (value === null || value === undefined) {
-        console.log("🔍 formatedValue - returning null (null/undefined)");
-        return null;
-      }
-
-      // For arrays (range/multi), ensure all items are valid
-      if (Array.isArray(value)) {
-        console.log("🔍 formatedValue - processing array:", value);
-        const validItems = value.filter((item) => {
-          if (item === null || item === undefined || item === "") return false;
-          if (typeof item === "string" || item instanceof Date) return true;
-          // For numbers, ensure they're valid timestamps (reasonable range)
-          if (typeof item === "number") {
-            return item > 946684800000 && item < 4102444800000; // 2000-2100 range
-          }
-          return false;
-        });
-        console.log("🔍 formatedValue - validItems after filter:", validItems);
-        const result = validItems.length > 0 ? validItems : null;
-        console.log("🔍 formatedValue - returning array result:", result);
-        return result;
-      }
-
-      // For single values, ensure it's a valid type
-      if (typeof value === "string" || value instanceof Date) {
-        console.log(
-          "🔍 formatedValue - returning valid single value:",
-          value,
-          typeof value
-        );
-        return value;
-      }
-
-      // For numbers, ensure they're valid timestamps
-      if (typeof value === "number") {
-        if (value > 946684800000 && value < 4102444800000) {
-          // 2000-2100 range
-          console.log("🔍 formatedValue - returning valid timestamp:", value);
-          return value;
-        } else {
-          console.log("🔍 formatedValue - rejecting invalid timestamp:", value);
-        }
-      }
-
-      console.log(
-        "🔍 formatedValue - returning null (invalid type):",
-        value,
-        typeof value
-      );
-      return null;
+      return this.formatInputValue(this.variableValue);
     },
     locale() {
       if (this.content.lang === "pageLang") {
@@ -388,16 +326,12 @@ export default {
   },
   methods: {
     handleSelection(value) {
-      console.log("🎯 handleSelection - received value:", value, typeof value);
       if (this.content.dateMode === "datetime" && value) {
-        console.log("🎯 handleSelection - datetime mode, processing...");
         value = Array.isArray(value)
           ? value.map((date) => (date ? date.toISOString() : null))
           : value.toISOString();
-        console.log("🎯 handleSelection - after datetime processing:", value);
       }
       const newValue = this.formatOutputValue(value);
-      console.log("🎯 handleSelection - after formatOutputValue:", newValue);
       if (JSON.stringify(this.variableValue) === JSON.stringify(newValue))
         return;
       this.setValue(newValue);
@@ -407,35 +341,14 @@ export default {
       });
     },
     formatInputValue(value) {
-      console.log("📝 formatInputValue - input:", value, typeof value);
-      if (!value) {
-        console.log("📝 formatInputValue - returning null (falsy value)");
-        return null;
-      } else if (this.content.selectionMode === "single") {
-        console.log("📝 formatInputValue - single mode, returning:", value);
-        return value;
-      } else if (this.content.selectionMode === "range") {
-        console.log(
-          "📝 formatInputValue - range mode, value.start:",
-          value.start,
-          "value.end:",
-          value.end
-        );
-        if (!value.start && !value.end) {
-          console.log(
-            "📝 formatInputValue - range mode, returning null (no start/end)"
-          );
-          return null;
-        }
-        const result = [value.start || null, value.end || null].filter(
+      if (!value) return null;
+      else if (this.content.selectionMode === "single") return value;
+      else if (this.content.selectionMode === "range") {
+        if (!value.start && !value.end) return null;
+        return [value.start || null, value.end || null].filter(
           (item) => item !== null && item !== ""
         );
-        console.log("📝 formatInputValue - range mode, returning:", result);
-        return result;
-      } else if (this.content.selectionMode === "multi") {
-        console.log("📝 formatInputValue - multi mode, returning:", value);
-        return value;
-      }
+      } else if (this.content.selectionMode === "multi") return value;
     },
     formatOutputValue(value) {
       if (!value) return null;
