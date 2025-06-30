@@ -631,7 +631,6 @@ export default {
       /* wwEditor:start */
       propertyHelp: {
         tooltip: `Define the selecting order. Position in the array will specify the execution step. When you overwrite the execution step, the flow is reset. <br>
-        <br>
         <a href="https://vue3datepicker.com/props/modes/#flow" target="_blank">Flow modes documentation</a>
         `,
       },
