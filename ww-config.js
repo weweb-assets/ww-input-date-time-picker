@@ -112,19 +112,16 @@ export default {
       name: "change",
       label: { en: "On change" },
       event: { value: "2023-03-02T14:54:54.727Z" },
-      getTestEvent: "getTestEvent",
     },
     {
       name: "initValueChange",
       label: { en: "On init value change" },
       event: { value: "2023-03-02T14:54:54.727Z" },
-      getTestEvent: "getTestEvent",
     },
     {
-      name: "flowStep",
+      name: "onFlowStep",
       label: { en: "On flow step" },
       event: { value: 1 },
-      getTestEvent: "getTestEvent",
     },
   ],
   actions: [
@@ -777,7 +774,7 @@ export default {
       section: "settings",
       bindable: true,
       defaultValue: false,
-      // hidden: (content) => content.dateMode === "time",
+      hidden: (content) => content.dateMode === "time",
     },
     closeOnAutoApply: {
       label: {
@@ -787,7 +784,7 @@ export default {
       section: "settings",
       bindable: true,
       defaultValue: true,
-      // hidden: (content) => content.dateMode === "time",
+      hidden: (content) => !content.autoApply || content.dateMode === "time",
     },
     weekNumbers: {
       label: { en: "Week numbers" },

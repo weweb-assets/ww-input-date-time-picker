@@ -372,7 +372,7 @@ export default {
     handleFlowStep(value) {
       this.setValue(value);
       this.$emit("trigger-event", {
-        name: "flowStep",
+        name: "onFlowStep",
         event: { value: value },
       });
     },
@@ -384,19 +384,6 @@ export default {
         this.wwDatePicker.closeMenu();
       });
     },
-    /* wwEditor:start */
-    getTestEvent() {
-      let fakeDate = new Date().toISOString();
-      if (this.content.dateMode === "month") fakeDate = "2023-03";
-      if (this.content.dateMode === "year") fakeDate = "2023";
-      if (this.content.dateMode === "time") fakeDate = "01:25:00";
-      if (this.content.selectionMode === "single") return { value: fakeDate };
-      else if (this.content.selectionMode === "range")
-        return { value: { start: fakeDate, end: fakeDate } };
-      else if (this.content.selectionMode === "multi")
-        return { value: [fakeDate, fakeDate, fakeDate] };
-    },
-    /* wwEditor:end */
   },
 };
 </script>
