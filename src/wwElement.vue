@@ -48,8 +48,6 @@
       :close-on-auto-apply="content.closeOnAutoApply"
       :flow="content.enableFlow ? content.flowSteps : null"
       @flow-step="handleFlowStep"
-      @time-update="handleTimeUpdate"
-      @closed="handleClosed"
       :timezone="timezone"
       :week-numbers="
         content.weekNumbers === 'none' ? null : content.weekNumbers
@@ -157,11 +155,6 @@ export default {
       initValue,
       wwDatePicker,
       selectDate,
-    };
-  },
-  data() {
-    return {
-      currentFlowStep: -1,
     };
   },
   watch: {
@@ -332,12 +325,6 @@ export default {
     },
   },
   methods: {
-    isTimeOnlyFlow() {
-      if (!this.content.enableFlow || !Array.isArray(this.content.flowSteps))
-        return false;
-      const timeSteps = ["hours", "minutes", "seconds", "time"];
-      return this.content.flowSteps.every((step) => timeSteps.includes(step));
-    },
     handleSelection(value) {
       if (this.content.dateMode === "datetime" && value) {
         value = Array.isArray(value)
@@ -352,20 +339,6 @@ export default {
         name: "change",
         event: { value: newValue },
       });
-    },
-    handleClosed() {
-      // When using time-only flows (hours/minutes/seconds), ensure latest internal model is emitted
-      // by relying on the recent selection already handled in handleSelection via update:model-value.
-      // Nothing to do here, but keep the hook for potential future side-effects.
-    },
-    handleTimeUpdate() {
-      if (!this.isTimeOnlyFlow()) return;
-      const isLastStep =
-        this.currentFlowStep >= this.content.flowSteps.length - 1;
-      if (isLastStep && this.wwDatePicker && this.wwDatePicker.selectDate) {
-        // Commit the selection when finishing the last time step
-        this.wwDatePicker.selectDate();
-      }
     },
     formatInputValue(value) {
       if (!value) return null;
@@ -397,7 +370,6 @@ export default {
       this.setValue(clearValue);
     },
     handleFlowStep(value) {
-      this.currentFlowStep = value;
       this.$emit("trigger-event", {
         name: "onFlowStep",
         event: { value: value },
