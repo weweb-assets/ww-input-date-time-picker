@@ -83,9 +83,9 @@
           <wwLayout path="triggerZone" />
         </wwLayoutItemContext>
       </template>
-      <template #action-select>
+      <!-- <template #action-select>
         <wwElement v-bind="content.actionSelectElement" @click="selectDate" />
-      </template>
+      </template> -->
       <template #left-sidebar v-if="content.enableLeftSidebar">
         <wwLayout path="leftSidebarZone" />
       </template>
