@@ -83,9 +83,9 @@
           <wwLayout path="triggerZone" />
         </wwLayoutItemContext>
       </template>
-      <!-- <template #action-select>
+      <template #action-select>
         <wwElement v-bind="content.actionSelectElement" @click="selectDate" />
-      </template> -->
+      </template>
       <template #left-sidebar v-if="content.enableLeftSidebar">
         <wwLayout path="leftSidebarZone" />
       </template>
@@ -397,6 +397,12 @@ export default {
 :deep(.calendar-only.stretch) .dp__outer_menu_wrap {
   width: 100% !important;
 }
+
+:deep(.dp__action_buttons) {
+  display: flex;
+  justify-content: flex-end;
+}
+
 .calendar-only.center {
   justify-content: center;
 }
