@@ -2000,10 +2000,17 @@ const Hl = (e, n, a, t) => {
     const D = (P) => {
         if (t.teleport) {
           const y = P.getBoundingClientRect();
-          return {
+          const result = {
             left: y.left + window.scrollX,
             top: y.top + window.scrollY,
           };
+          console.log("[DP] getTeleportPosition", {
+            rectTop: y.top,
+            rectBottom: y.bottom,
+            scrollY: window.scrollY,
+            resultTop: result.top,
+          });
+          return result;
         }
         return { top: 0, left: 0 };
       },
@@ -2065,13 +2072,28 @@ const Hl = (e, n, a, t) => {
 
         // On mobile, ensure menu doesn't go above the visible viewport
         const isMobile = window.innerWidth <= 768;
-        if (isMobile && window.visualViewport) {
-          const visibleTop =
-            window.scrollY + window.visualViewport.offsetTop + 8;
+        const vv = window.visualViewport;
+        if (isMobile && vv) {
+          const visibleTop = window.scrollY + vv.offsetTop + 8;
+          console.log("[DP] Position Below - Mobile Check", {
+            calculatedTop: finalTop,
+            visibleTop: visibleTop,
+            scrollY: window.scrollY,
+            vvOffsetTop: vv.offsetTop,
+            willClamp: finalTop < visibleTop,
+          });
           if (finalTop < visibleTop) {
             finalTop = visibleTop;
           }
         }
+
+        console.log("[DP] Position Below - Final", {
+          inputTop: S,
+          inputHeight: U,
+          offset: +t.offset,
+          finalTop: finalTop,
+          isMobile: isMobile,
+        });
 
         (o.value.top = `${finalTop}px`),
           Q({ inputEl: P, menuEl: y, left: b, width: X }),
@@ -2120,10 +2142,8 @@ const Hl = (e, n, a, t) => {
 
         // Calculate available space in the visible viewport
         const isMobile = window.innerWidth <= 768;
-        const viewportHeight =
-          isMobile && window.visualViewport
-            ? window.visualViewport.height
-            : window.innerHeight;
+        const vv = window.visualViewport;
+        const viewportHeight = isMobile && vv ? vv.height : window.innerHeight;
 
         const spaceBelow = viewportHeight - b - U;
         const spaceAbove = b;
@@ -2131,12 +2151,30 @@ const Hl = (e, n, a, t) => {
         const fitsBelow = S + +t.offset + 8 <= spaceBelow;
         const fitsAbove = S + +t.offset + 8 <= spaceAbove;
 
+        console.log("[DP] Auto Position Decision", {
+          menuHeight: S,
+          inputTop: b,
+          inputHeight: U,
+          viewportHeight: viewportHeight,
+          spaceBelow: spaceBelow,
+          spaceAbove: spaceAbove,
+          fitsBelow: fitsBelow,
+          fitsAbove: fitsAbove,
+          isMobile: isMobile,
+          vvHeight: vv ? vv.height : "N/A",
+          vvOffsetTop: vv ? vv.offsetTop : "N/A",
+        });
+
         if (fitsBelow) {
+          console.log("[DP] Decision: BELOW (fits)");
           return B(P, y);
         }
         if (fitsAbove) {
+          console.log("[DP] Decision: ABOVE (fits)");
           return E(P, y);
         }
+        const decision = spaceBelow >= spaceAbove ? "BELOW" : "ABOVE";
+        console.log("[DP] Decision:", decision, "(more space)");
         return spaceBelow >= spaceAbove ? B(P, y) : E(P, y);
       },
       ne = () => {
