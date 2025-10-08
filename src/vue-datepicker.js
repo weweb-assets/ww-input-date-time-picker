@@ -2000,9 +2000,28 @@ const Hl = (e, n, a, t) => {
     const D = (P) => {
         if (t.teleport) {
           const y = P.getBoundingClientRect();
+          const isMobile = window.innerWidth <= 768;
+          const visualViewport = window.visualViewport;
+          const scrollYOffset =
+            visualViewport && isMobile
+              ? visualViewport.pageTop
+              : window.scrollY;
+          const topOffset =
+            visualViewport && isMobile ? visualViewport.offsetTop : 0;
+          console.log("[DatePicker] getTeleportPosition", {
+            isMobile: isMobile,
+            rectTop: y.top,
+            scrollY: window.scrollY,
+            scrollYOffset: scrollYOffset,
+            visualViewportOffsetTop: topOffset,
+            visualViewportHeight: visualViewport
+              ? visualViewport.height
+              : "N/A",
+            windowInnerHeight: window.innerHeight,
+          });
           return {
             left: y.left + window.scrollX,
-            top: y.top + window.scrollY,
+            top: y.top + scrollYOffset + topOffset,
           };
         }
         return { top: 0, left: 0 };
@@ -2086,17 +2105,25 @@ const Hl = (e, n, a, t) => {
           { height: X } = y.getBoundingClientRect();
         let calculatedTop = S - X - +t.offset;
         const minTopMargin = 8;
+        const isMobile = window.innerWidth <= 768;
+        const visualViewport = window.visualViewport;
         const scrollY = t.teleport ? window.scrollY : 0;
+        const viewportOffsetTop =
+          visualViewport && isMobile ? visualViewport.offsetTop : 0;
+        const minTop = scrollY + minTopMargin + viewportOffsetTop;
         const originalTop = calculatedTop;
-        if (calculatedTop < scrollY + minTopMargin) {
-          calculatedTop = scrollY + minTopMargin;
+        if (calculatedTop < minTop) {
+          calculatedTop = minTop;
         }
         console.log("[DatePicker Position Above]", {
+          isMobile: isMobile,
           inputTop: S,
           menuHeight: X,
           offset: +t.offset,
           scrollY: scrollY,
+          viewportOffsetTop: viewportOffsetTop,
           minTopMargin: minTopMargin,
+          minTop: minTop,
           originalCalculatedTop: originalTop,
           adjustedTop: calculatedTop,
           wasClamped: originalTop !== calculatedTop,
@@ -2122,16 +2149,27 @@ const Hl = (e, n, a, t) => {
         const { height: S } = y.getBoundingClientRect(),
           { top: b, height: U } = P.getBoundingClientRect();
         const minTopMargin = 8;
+        const isMobile = window.innerWidth <= 768;
+        const visualViewport = window.visualViewport;
+        const viewportHeight =
+          visualViewport && isMobile
+            ? visualViewport.height
+            : window.innerHeight;
         const scrollY = t.teleport ? window.scrollY : 0;
-        const spaceBelow = window.innerHeight - b - U;
+        const viewportOffsetTop =
+          visualViewport && isMobile ? visualViewport.offsetTop : 0;
+        const spaceBelow = viewportHeight - b - U + viewportOffsetTop;
         const spaceAbove = b - scrollY - minTopMargin;
         const fitsBelow = S + +t.offset <= spaceBelow;
         const fitsAbove = S + +t.offset <= spaceAbove;
         console.log("[DatePicker Auto Position Decision]", {
+          isMobile: isMobile,
           menuHeight: S,
           inputTop: b,
           inputHeight: U,
           windowHeight: window.innerHeight,
+          viewportHeight: viewportHeight,
+          visualViewportOffsetTop: viewportOffsetTop,
           scrollY: scrollY,
           offset: +t.offset,
           minTopMargin: minTopMargin,
