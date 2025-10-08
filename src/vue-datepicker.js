@@ -2094,6 +2094,20 @@ const Hl = (e, n, a, t) => {
         o.value.top = `${menuTop}px`;
         Q({ inputEl: P, menuEl: y, left: b, width: X });
         d.value = !1;
+
+        // Check actual DOM position after everything
+        yt(() => {
+          const actualRect = y.getBoundingClientRect();
+          const actualStyle = window.getComputedStyle(y);
+          console.log("[DP] ACTUAL DOM Position", {
+            setTop: menuTop,
+            computedTop: actualStyle.top,
+            computedTransform: actualStyle.transform,
+            actualRectTop: actualRect.top,
+            actualRectBottom: actualRect.bottom,
+            isCutOff: actualRect.top < 0,
+          });
+        });
       },
       E = (P, y) => {
         const { top: S, left: b, width: U } = A(P);
