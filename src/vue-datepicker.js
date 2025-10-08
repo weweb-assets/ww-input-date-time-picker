@@ -2026,6 +2026,14 @@ const Hl = (e, n, a, t) => {
       A = (P) => {
         const { width: y, height: S } = P.getBoundingClientRect(),
           { top: b, left: U } = t.altPosition ? t.altPosition(P) : D(P);
+        console.log("[DatePicker] getInputPosition", {
+          top: +b,
+          left: +U,
+          width: y,
+          height: S,
+          usedAltPosition: !!t.altPosition,
+          teleport: t.teleport,
+        });
         return { top: +b, left: +U, width: y, height: S };
       },
       c = () => {
@@ -2061,7 +2069,15 @@ const Hl = (e, n, a, t) => {
       },
       B = (P, y) => {
         const { top: S, left: b, height: U, width: X } = A(P);
-        (o.value.top = `${U + S + +t.offset}px`),
+        const finalTop = U + S + +t.offset;
+        console.log("[DatePicker Position Below]", {
+          inputTop: S,
+          inputHeight: U,
+          offset: +t.offset,
+          finalTop: finalTop,
+          teleport: t.teleport,
+        });
+        (o.value.top = `${finalTop}px`),
           Q({ inputEl: P, menuEl: y, left: b, width: X }),
           (d.value = !1);
       },
@@ -2071,9 +2087,21 @@ const Hl = (e, n, a, t) => {
         let calculatedTop = S - X - +t.offset;
         const minTopMargin = 8;
         const scrollY = t.teleport ? window.scrollY : 0;
+        const originalTop = calculatedTop;
         if (calculatedTop < scrollY + minTopMargin) {
           calculatedTop = scrollY + minTopMargin;
         }
+        console.log("[DatePicker Position Above]", {
+          inputTop: S,
+          menuHeight: X,
+          offset: +t.offset,
+          scrollY: scrollY,
+          minTopMargin: minTopMargin,
+          originalCalculatedTop: originalTop,
+          adjustedTop: calculatedTop,
+          wasClamped: originalTop !== calculatedTop,
+          teleport: t.teleport,
+        });
         (o.value.top = `${calculatedTop}px`),
           Q({ inputEl: P, menuEl: y, left: b, width: U }),
           (d.value = !0);
@@ -2099,18 +2127,46 @@ const Hl = (e, n, a, t) => {
         const spaceAbove = b - scrollY - minTopMargin;
         const fitsBelow = S + +t.offset <= spaceBelow;
         const fitsAbove = S + +t.offset <= spaceAbove;
+        console.log("[DatePicker Auto Position Decision]", {
+          menuHeight: S,
+          inputTop: b,
+          inputHeight: U,
+          windowHeight: window.innerHeight,
+          scrollY: scrollY,
+          offset: +t.offset,
+          minTopMargin: minTopMargin,
+          spaceBelow: spaceBelow,
+          spaceAbove: spaceAbove,
+          fitsBelow: fitsBelow,
+          fitsAbove: fitsAbove,
+          teleport: t.teleport,
+        });
         if (fitsBelow) {
+          console.log("[DatePicker] Decision: Position BELOW (fits)");
           return B(P, y);
         }
         if (fitsAbove) {
+          console.log("[DatePicker] Decision: Position ABOVE (fits)");
           return E(P, y);
         }
+        const decision = spaceBelow >= spaceAbove ? "BELOW" : "ABOVE";
+        console.log(
+          `[DatePicker] Decision: Position ${decision} (fallback - more space)`
+        );
         return spaceBelow >= spaceAbove ? B(P, y) : E(P, y);
       },
       ne = () => {
         const P = _e(n),
           y = _e(e);
-        if (P && y) return t.autoPosition ? j(P, y) : B(P, y);
+        if (P && y) {
+          console.log("[DatePicker] setMenuPosition called", {
+            autoPosition: t.autoPosition,
+            teleport: t.teleport,
+            position: t.position,
+            altPosition: t.altPosition,
+          });
+          return t.autoPosition ? j(P, y) : B(P, y);
+        }
       },
       re = function (P) {
         if (P) {
