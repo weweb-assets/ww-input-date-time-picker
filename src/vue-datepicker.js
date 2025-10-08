@@ -2000,17 +2000,9 @@ const Hl = (e, n, a, t) => {
     const D = (P) => {
         if (t.teleport) {
           const y = P.getBoundingClientRect();
-          const isMobile = window.innerWidth <= 768;
-          const visualViewport = window.visualViewport;
-          const scrollYOffset =
-            visualViewport && isMobile
-              ? visualViewport.pageTop
-              : window.scrollY;
-          const topOffset =
-            visualViewport && isMobile ? visualViewport.offsetTop : 0;
           return {
             left: y.left + window.scrollX,
-            top: y.top + scrollYOffset + topOffset,
+            top: y.top + window.scrollY,
           };
         }
         return { top: 0, left: 0 };
@@ -2071,17 +2063,14 @@ const Hl = (e, n, a, t) => {
         const { top: S, left: b, height: U, width: X } = A(P);
         let finalTop = U + S + +t.offset;
 
-        // Ensure menu doesn't go off-screen at the top
+        // On mobile, ensure menu doesn't go above the visible viewport
         const isMobile = window.innerWidth <= 768;
-        const visualViewport = window.visualViewport;
-        const viewportOffsetTop =
-          visualViewport && isMobile ? visualViewport.offsetTop : 0;
-        const scrollY = t.teleport ? window.scrollY : 0;
-        const minTopMargin = 8;
-        const minTop = scrollY + minTopMargin + viewportOffsetTop;
-
-        if (finalTop < minTop) {
-          finalTop = minTop;
+        if (isMobile && window.visualViewport) {
+          const visibleTop =
+            window.scrollY + window.visualViewport.offsetTop + 8;
+          if (finalTop < visibleTop) {
+            finalTop = visibleTop;
+          }
         }
 
         (o.value.top = `${finalTop}px`),
@@ -2092,16 +2081,23 @@ const Hl = (e, n, a, t) => {
         const { top: S, left: b, width: U } = A(P),
           { height: X } = y.getBoundingClientRect();
         let calculatedTop = S - X - +t.offset;
-        const minTopMargin = 8;
+
+        // On mobile, ensure menu doesn't go above the visible viewport
         const isMobile = window.innerWidth <= 768;
-        const visualViewport = window.visualViewport;
-        const scrollY = t.teleport ? window.scrollY : 0;
-        const viewportOffsetTop =
-          visualViewport && isMobile ? visualViewport.offsetTop : 0;
-        const minTop = scrollY + minTopMargin + viewportOffsetTop;
-        if (calculatedTop < minTop) {
-          calculatedTop = minTop;
+        if (isMobile && window.visualViewport) {
+          const visibleTop =
+            window.scrollY + window.visualViewport.offsetTop + 8;
+          if (calculatedTop < visibleTop) {
+            calculatedTop = visibleTop;
+          }
+        } else {
+          // On desktop, just ensure it doesn't go above the top of the page
+          const minTop = window.scrollY + 8;
+          if (calculatedTop < minTop) {
+            calculatedTop = minTop;
+          }
         }
+
         (o.value.top = `${calculatedTop}px`),
           Q({ inputEl: P, menuEl: y, left: b, width: U }),
           (d.value = !0);
@@ -2121,20 +2117,20 @@ const Hl = (e, n, a, t) => {
       j = (P, y) => {
         const { height: S } = y.getBoundingClientRect(),
           { top: b, height: U } = P.getBoundingClientRect();
-        const minTopMargin = 8;
+
+        // Calculate available space in the visible viewport
         const isMobile = window.innerWidth <= 768;
-        const visualViewport = window.visualViewport;
         const viewportHeight =
-          visualViewport && isMobile
-            ? visualViewport.height
+          isMobile && window.visualViewport
+            ? window.visualViewport.height
             : window.innerHeight;
-        const scrollY = t.teleport ? window.scrollY : 0;
-        const viewportOffsetTop =
-          visualViewport && isMobile ? visualViewport.offsetTop : 0;
-        const spaceBelow = viewportHeight - b - U + viewportOffsetTop;
-        const spaceAbove = b - scrollY - minTopMargin;
-        const fitsBelow = S + +t.offset <= spaceBelow;
-        const fitsAbove = S + +t.offset <= spaceAbove;
+
+        const spaceBelow = viewportHeight - b - U;
+        const spaceAbove = b;
+
+        const fitsBelow = S + +t.offset + 8 <= spaceBelow;
+        const fitsAbove = S + +t.offset + 8 <= spaceAbove;
+
         if (fitsBelow) {
           return B(P, y);
         }
