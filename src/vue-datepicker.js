@@ -2162,8 +2162,15 @@ const Hl = (e, n, a, t) => {
         const inputRect = P.getBoundingClientRect();
         const menuRect = y.getBoundingClientRect();
 
-        // Calculate space available (same for mobile and desktop)
-        const spaceBelow = window.innerHeight - inputRect.bottom;
+        // Use visual viewport height on mobile for accurate space calculation
+        const isMobile = window.innerWidth <= 768;
+        const viewportHeight =
+          isMobile && window.visualViewport
+            ? window.visualViewport.height
+            : window.innerHeight;
+
+        // Calculate space available
+        const spaceBelow = viewportHeight - inputRect.bottom;
         const spaceAbove = inputRect.top;
 
         // Decide: prefer below, use above only if not enough space below
@@ -2176,9 +2183,11 @@ const Hl = (e, n, a, t) => {
           inputBottom: inputRect.bottom,
           menuHeight: menuRect.height,
           windowHeight: window.innerHeight,
+          viewportHeight: viewportHeight,
           spaceAbove: spaceAbove,
           spaceBelow: spaceBelow,
           decision: shouldPositionAbove ? "ABOVE" : "BELOW",
+          isMobile: isMobile,
         });
 
         return shouldPositionAbove ? E(P, y) : B(P, y);
