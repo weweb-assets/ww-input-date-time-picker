@@ -2062,31 +2062,19 @@ const Hl = (e, n, a, t) => {
       B = (P, y) => {
         const { top: S, left: b, height: U, width: X } = A(P);
         const menuHeight = y.getBoundingClientRect().height;
-        const isMobile = window.innerWidth <= 768;
 
         // Position below input
         let menuTop = S + U + +t.offset;
 
-        // Get viewport constraints
-        const viewportHeight =
-          isMobile && window.visualViewport
-            ? window.visualViewport.height
-            : window.innerHeight;
+        // Ensure menu stays within viewport (same for mobile and desktop)
         const scrollTop = window.scrollY;
-        const viewportTop =
-          isMobile && window.visualViewport
-            ? scrollTop + window.visualViewport.offsetTop
-            : scrollTop;
-        const viewportBottom = viewportTop + viewportHeight;
-
-        // Ensure menu stays within viewport
         const margin = 8;
-        const minTop = viewportTop + margin;
-        const maxTop = viewportBottom - menuHeight - margin;
+        const minTop = scrollTop + margin;
+        const maxTop = scrollTop + window.innerHeight - menuHeight - margin;
 
         if (menuTop < minTop) {
           menuTop = minTop;
-        } else if (menuTop + menuHeight > viewportBottom) {
+        } else if (menuTop > maxTop) {
           menuTop = maxTop;
         }
 
@@ -2096,8 +2084,10 @@ const Hl = (e, n, a, t) => {
           calculatedTop: S + U + +t.offset,
           finalTop: menuTop,
           menuHeight: menuHeight,
-          viewportTop: viewportTop,
-          viewportBottom: viewportBottom,
+          scrollTop: scrollTop,
+          windowHeight: window.innerHeight,
+          minTop: minTop,
+          maxTop: maxTop,
           clamped: menuTop !== S + U + +t.offset,
         });
 
@@ -2108,31 +2098,19 @@ const Hl = (e, n, a, t) => {
       E = (P, y) => {
         const { top: S, left: b, width: U } = A(P);
         const menuHeight = y.getBoundingClientRect().height;
-        const isMobile = window.innerWidth <= 768;
 
         // Position above input
         let menuTop = S - menuHeight - +t.offset;
 
-        // Get viewport constraints
-        const viewportHeight =
-          isMobile && window.visualViewport
-            ? window.visualViewport.height
-            : window.innerHeight;
+        // Ensure menu stays within viewport (same for mobile and desktop)
         const scrollTop = window.scrollY;
-        const viewportTop =
-          isMobile && window.visualViewport
-            ? scrollTop + window.visualViewport.offsetTop
-            : scrollTop;
-        const viewportBottom = viewportTop + viewportHeight;
-
-        // Ensure menu stays within viewport
         const margin = 8;
-        const minTop = viewportTop + margin;
-        const maxTop = viewportBottom - menuHeight - margin;
+        const minTop = scrollTop + margin;
+        const maxTop = scrollTop + window.innerHeight - menuHeight - margin;
 
         if (menuTop < minTop) {
           menuTop = minTop;
-        } else if (menuTop + menuHeight > viewportBottom) {
+        } else if (menuTop > maxTop) {
           menuTop = maxTop;
         }
 
@@ -2141,8 +2119,10 @@ const Hl = (e, n, a, t) => {
           calculatedTop: S - menuHeight - +t.offset,
           finalTop: menuTop,
           menuHeight: menuHeight,
-          viewportTop: viewportTop,
-          viewportBottom: viewportBottom,
+          scrollTop: scrollTop,
+          windowHeight: window.innerHeight,
+          minTop: minTop,
+          maxTop: maxTop,
           clamped: menuTop !== S - menuHeight - +t.offset,
         });
 
@@ -2165,16 +2145,9 @@ const Hl = (e, n, a, t) => {
       j = (P, y) => {
         const inputRect = P.getBoundingClientRect();
         const menuRect = y.getBoundingClientRect();
-        const isMobile = window.innerWidth <= 768;
 
-        // Get viewport dimensions
-        const viewportHeight =
-          isMobile && window.visualViewport
-            ? window.visualViewport.height
-            : window.innerHeight;
-
-        // Calculate space available
-        const spaceBelow = viewportHeight - inputRect.bottom;
+        // Calculate space available (same for mobile and desktop)
+        const spaceBelow = window.innerHeight - inputRect.bottom;
         const spaceAbove = inputRect.top;
 
         // Decide: prefer below, use above only if not enough space below
@@ -2186,11 +2159,10 @@ const Hl = (e, n, a, t) => {
           inputTop: inputRect.top,
           inputBottom: inputRect.bottom,
           menuHeight: menuRect.height,
-          viewportHeight: viewportHeight,
+          windowHeight: window.innerHeight,
           spaceAbove: spaceAbove,
           spaceBelow: spaceBelow,
           decision: shouldPositionAbove ? "ABOVE" : "BELOW",
-          isMobile: isMobile,
         });
 
         return shouldPositionAbove ? E(P, y) : B(P, y);
