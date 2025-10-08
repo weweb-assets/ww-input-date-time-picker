@@ -2098,6 +2098,21 @@ const Hl = (e, n, a, t) => {
         (o.value.top = `${finalTop}px`),
           Q({ inputEl: P, menuEl: y, left: b, width: X }),
           (d.value = !1);
+
+        // Check actual DOM position after render
+        yt(() => {
+          const rect = y.getBoundingClientRect();
+          const style = window.getComputedStyle(y);
+          console.log("[DP] Menu DOM Check", {
+            rectTop: rect.top,
+            rectBottom: rect.bottom,
+            rectHeight: rect.height,
+            computedTop: style.top,
+            computedTransform: style.transform,
+            isCutOff: rect.top < 0,
+            visibleFromTop: Math.max(0, -rect.top),
+          });
+        });
       },
       E = (P, y) => {
         const { top: S, left: b, width: U } = A(P),
