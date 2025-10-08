@@ -2078,37 +2078,10 @@ const Hl = (e, n, a, t) => {
           menuTop = maxTop;
         }
 
-        console.log("[DP] Position BELOW", {
-          inputTop: S,
-          inputHeight: U,
-          calculatedTop: S + U + +t.offset,
-          finalTop: menuTop,
-          menuHeight: menuHeight,
-          scrollTop: scrollTop,
-          windowHeight: window.innerHeight,
-          minTop: minTop,
-          maxTop: maxTop,
-          clamped: menuTop !== S + U + +t.offset,
-        });
-
         o.value.top = `${menuTop}px`;
-        o.value.transform = "translateX(-50%)"; // Remove any Y translation
+        o.value.transform = "translateX(-50%)";
         Q({ inputEl: P, menuEl: y, left: b, width: X });
         d.value = !1;
-
-        // Check actual DOM position after everything
-        yt(() => {
-          const actualRect = y.getBoundingClientRect();
-          const actualStyle = window.getComputedStyle(y);
-          console.log("[DP] ACTUAL DOM Position", {
-            setTop: menuTop,
-            computedTop: actualStyle.top,
-            computedTransform: actualStyle.transform,
-            actualRectTop: actualRect.top,
-            actualRectBottom: actualRect.bottom,
-            isCutOff: actualRect.top < 0,
-          });
-        });
       },
       E = (P, y) => {
         const { top: S, left: b, width: U } = A(P);
@@ -2129,20 +2102,8 @@ const Hl = (e, n, a, t) => {
           menuTop = maxTop;
         }
 
-        console.log("[DP] Position ABOVE", {
-          inputTop: S,
-          calculatedTop: S - menuHeight - +t.offset,
-          finalTop: menuTop,
-          menuHeight: menuHeight,
-          scrollTop: scrollTop,
-          windowHeight: window.innerHeight,
-          minTop: minTop,
-          maxTop: maxTop,
-          clamped: menuTop !== S - menuHeight - +t.offset,
-        });
-
         o.value.top = `${menuTop}px`;
-        o.value.transform = "translateX(-50%)"; // Remove any Y translation
+        o.value.transform = "translateX(-50%)";
         Q({ inputEl: P, menuEl: y, left: b, width: U });
         d.value = !0;
       },
@@ -2177,18 +2138,6 @@ const Hl = (e, n, a, t) => {
         const shouldPositionAbove =
           spaceBelow < menuRect.height + +t.offset + 16 &&
           spaceAbove > spaceBelow;
-
-        console.log("[DP] Position Decision", {
-          inputTop: inputRect.top,
-          inputBottom: inputRect.bottom,
-          menuHeight: menuRect.height,
-          windowHeight: window.innerHeight,
-          viewportHeight: viewportHeight,
-          spaceAbove: spaceAbove,
-          spaceBelow: spaceBelow,
-          decision: shouldPositionAbove ? "ABOVE" : "BELOW",
-          isMobile: isMobile,
-        });
 
         return shouldPositionAbove ? E(P, y) : B(P, y);
       },
