@@ -2255,8 +2255,14 @@ const Hl = (e, n, a, t) => {
             });
 
             // Check if menu is cut off at the top and fix it
-            if (rect.top < viewportTop + minTopMargin) {
-              const currentTopValue = parseFloat(computedStyle.top);
+            // Only adjust on mobile OR if the top position is very low (indicating initial positioning)
+            const currentTopValue = parseFloat(computedStyle.top);
+            const isLikelyIntermediatePosition = currentTopValue < 30; // Initial centered position is around 20px
+            const shouldAdjust =
+              rect.top < viewportTop + minTopMargin &&
+              (isMobile || !isLikelyIntermediatePosition);
+
+            if (shouldAdjust) {
               const adjustment = viewportTop + minTopMargin - rect.top;
               const newTop = currentTopValue + adjustment;
               console.log("[DatePicker] Menu is cut off! Adjusting position", {
@@ -2265,6 +2271,8 @@ const Hl = (e, n, a, t) => {
                 newTop: newTop,
                 rectTopWas: rect.top,
                 shouldBe: viewportTop + minTopMargin,
+                isMobile: isMobile,
+                isLikelyIntermediate: isLikelyIntermediatePosition,
               });
               o.value.top = `${newTop}px`;
 
@@ -2277,6 +2285,19 @@ const Hl = (e, n, a, t) => {
                   isNowVisible: newRect.top >= viewportTop + minTopMargin,
                 });
               });
+            } else if (rect.top < viewportTop + minTopMargin) {
+              console.log(
+                "[DatePicker] Menu appears cut off but skipping adjustment",
+                {
+                  rectTop: rect.top,
+                  computedTop: currentTopValue,
+                  isMobile: isMobile,
+                  isLikelyIntermediate: isLikelyIntermediatePosition,
+                  reason: isLikelyIntermediatePosition
+                    ? "Waiting for final position"
+                    : "Desktop with proper top value",
+                }
+              );
             }
           }
         });
