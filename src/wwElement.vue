@@ -69,11 +69,6 @@
       :teleport="
         content.enableCalendarOnly || content.stickedDatePicker ? null : body
       "
-      :alt-position="
-        content.enableCalendarOnly || content.stickedDatePicker
-          ? null
-          : customPositionHandler
-      "
       :dpStyle="{ ...themeStyle }"
       :readonly="isReadOnly || isEditing"
       :key="dpKey"
@@ -330,107 +325,6 @@ export default {
     },
   },
   methods: {
-    customPositionHandler(inputEl) {
-      if (!inputEl) return { top: 0, left: 0 };
-
-      // Get input element position and dimensions
-      const inputRect = inputEl.getBoundingClientRect();
-      const inputTop = inputRect.top;
-      const inputLeft = inputRect.left;
-      const inputHeight = inputRect.height;
-      const inputWidth = inputRect.width;
-
-      // Get viewport dimensions
-      const viewportHeight = window.innerHeight;
-      const viewportWidth = window.innerWidth;
-
-      // Estimate menu dimensions (approximate values)
-      // The actual menu will be around 320px tall and 260px wide by default
-      const menuHeight = 360; // Slightly larger to be safe
-      const menuWidth = 280;
-
-      // Calculate available space
-      const spaceBelow = viewportHeight - (inputTop + inputHeight);
-      const spaceAbove = inputTop;
-
-      // Determine vertical position
-      let top = 0;
-      const offset = 10; // Match the default offset
-      const minTopPadding = 8; // Minimum padding from top of viewport
-
-      // Try to position below first
-      if (spaceBelow >= menuHeight) {
-        // Enough space below
-        top = inputTop + inputHeight + offset;
-      } else if (spaceAbove >= menuHeight) {
-        // Not enough space below, but enough space above
-        top = inputTop - menuHeight - offset;
-
-        // Ensure menu doesn't go above viewport
-        if (top < minTopPadding) {
-          top = minTopPadding;
-        }
-      } else {
-        // Not enough space either way
-        // Position where there's more space
-        if (spaceBelow >= spaceAbove) {
-          // Position below
-          top = inputTop + inputHeight + offset;
-          // If it would extend below viewport, adjust
-          if (top + menuHeight > viewportHeight) {
-            top = Math.max(minTopPadding, viewportHeight - menuHeight - offset);
-          }
-        } else {
-          // Position above
-          top = inputTop - menuHeight - offset;
-          // Ensure it doesn't go above viewport
-          if (top < minTopPadding) {
-            top = minTopPadding;
-          }
-        }
-      }
-
-      // Determine horizontal position based on content.menuPosition
-      let left = inputLeft;
-      const menuPosition = this.content.menuPosition || "center";
-
-      if (menuPosition === "center") {
-        left = inputLeft + inputWidth / 2;
-      } else if (menuPosition === "right") {
-        left = inputLeft + inputWidth;
-      }
-      // 'left' position is already set correctly
-
-      // Ensure menu doesn't extend beyond right edge of viewport
-      const potentialRight =
-        menuPosition === "center" ? left + menuWidth / 2 : left + menuWidth;
-
-      if (potentialRight > viewportWidth) {
-        if (menuPosition === "center") {
-          left = viewportWidth - menuWidth / 2 - 8;
-        } else {
-          left = viewportWidth - menuWidth - 8;
-        }
-      }
-
-      // Ensure menu doesn't extend beyond left edge
-      const potentialLeft =
-        menuPosition === "center" ? left - menuWidth / 2 : left;
-
-      if (potentialLeft < 8) {
-        if (menuPosition === "center") {
-          left = menuWidth / 2 + 8;
-        } else {
-          left = 8;
-        }
-      }
-
-      return {
-        top: `${top}px`,
-        left: `${left}px`,
-        transform: menuPosition === "center" ? "translateX(-50%)" : undefined,
-      };
-    },
     handleSelection(value) {
       if (this.content.dateMode === "datetime" && value) {
         value = Array.isArray(value)
