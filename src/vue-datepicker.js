@@ -2221,6 +2221,68 @@ const Hl = (e, n, a, t) => {
           ? P
           : ce(P.parentNode);
       };
+    ct(
+      () => o.value,
+      (newPos) => {
+        console.log("[DatePicker] menuPosition updated", {
+          ...newPos,
+          openOnTop: d.value,
+        });
+        yt(() => {
+          const menuEl = _e(e);
+          if (menuEl) {
+            const rect = menuEl.getBoundingClientRect();
+            const computedStyle = window.getComputedStyle(menuEl);
+            const isMobile = window.innerWidth <= 768;
+            const visualViewport = window.visualViewport;
+            const viewportTop =
+              visualViewport && isMobile ? visualViewport.offsetTop : 0;
+            const minTopMargin = 8;
+
+            console.log("[DatePicker] Menu DOM position BEFORE adjustment", {
+              rectTop: rect.top,
+              rectBottom: rect.bottom,
+              rectHeight: rect.height,
+              computedTop: computedStyle.top,
+              computedPosition: computedStyle.position,
+              computedTransform: computedStyle.transform,
+              isVisible: rect.height > 0,
+              isMobile: isMobile,
+              visualViewportHeight: visualViewport
+                ? visualViewport.height
+                : "N/A",
+              viewportOffsetTop: viewportTop,
+            });
+
+            // Check if menu is cut off at the top and fix it
+            if (rect.top < viewportTop + minTopMargin) {
+              const currentTopValue = parseFloat(computedStyle.top);
+              const adjustment = viewportTop + minTopMargin - rect.top;
+              const newTop = currentTopValue + adjustment;
+              console.log("[DatePicker] Menu is cut off! Adjusting position", {
+                oldTop: currentTopValue,
+                adjustment: adjustment,
+                newTop: newTop,
+                rectTopWas: rect.top,
+                shouldBe: viewportTop + minTopMargin,
+              });
+              o.value.top = `${newTop}px`;
+
+              yt(() => {
+                const newRect = menuEl.getBoundingClientRect();
+                console.log("[DatePicker] Menu DOM position AFTER adjustment", {
+                  rectTop: newRect.top,
+                  rectBottom: newRect.bottom,
+                  wasCutOff: rect.top < viewportTop + minTopMargin,
+                  isNowVisible: newRect.top >= viewportTop + minTopMargin,
+                });
+              });
+            }
+          }
+        });
+      },
+      { deep: true }
+    );
     return {
       openOnTop: d,
       menuPosition: o,
