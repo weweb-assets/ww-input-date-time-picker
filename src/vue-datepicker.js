@@ -2092,6 +2092,7 @@ const Hl = (e, n, a, t) => {
         });
 
         o.value.top = `${menuTop}px`;
+        o.value.transform = "translateX(-50%)"; // Remove any Y translation
         Q({ inputEl: P, menuEl: y, left: b, width: X });
         d.value = !1;
 
@@ -2141,6 +2142,7 @@ const Hl = (e, n, a, t) => {
         });
 
         o.value.top = `${menuTop}px`;
+        o.value.transform = "translateX(-50%)"; // Remove any Y translation
         Q({ inputEl: P, menuEl: y, left: b, width: U });
         d.value = !0;
       },
