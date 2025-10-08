@@ -2008,17 +2008,6 @@ const Hl = (e, n, a, t) => {
               : window.scrollY;
           const topOffset =
             visualViewport && isMobile ? visualViewport.offsetTop : 0;
-          console.log("[DatePicker] getTeleportPosition", {
-            isMobile: isMobile,
-            rectTop: y.top,
-            scrollY: window.scrollY,
-            scrollYOffset: scrollYOffset,
-            visualViewportOffsetTop: topOffset,
-            visualViewportHeight: visualViewport
-              ? visualViewport.height
-              : "N/A",
-            windowInnerHeight: window.innerHeight,
-          });
           return {
             left: y.left + window.scrollX,
             top: y.top + scrollYOffset + topOffset,
@@ -2045,14 +2034,6 @@ const Hl = (e, n, a, t) => {
       A = (P) => {
         const { width: y, height: S } = P.getBoundingClientRect(),
           { top: b, left: U } = t.altPosition ? t.altPosition(P) : D(P);
-        console.log("[DatePicker] getInputPosition", {
-          top: +b,
-          left: +U,
-          width: y,
-          height: S,
-          usedAltPosition: !!t.altPosition,
-          teleport: t.teleport,
-        });
         return { top: +b, left: +U, width: y, height: S };
       },
       c = () => {
@@ -2088,14 +2069,21 @@ const Hl = (e, n, a, t) => {
       },
       B = (P, y) => {
         const { top: S, left: b, height: U, width: X } = A(P);
-        const finalTop = U + S + +t.offset;
-        console.log("[DatePicker Position Below]", {
-          inputTop: S,
-          inputHeight: U,
-          offset: +t.offset,
-          finalTop: finalTop,
-          teleport: t.teleport,
-        });
+        let finalTop = U + S + +t.offset;
+
+        // Ensure menu doesn't go off-screen at the top
+        const isMobile = window.innerWidth <= 768;
+        const visualViewport = window.visualViewport;
+        const viewportOffsetTop =
+          visualViewport && isMobile ? visualViewport.offsetTop : 0;
+        const scrollY = t.teleport ? window.scrollY : 0;
+        const minTopMargin = 8;
+        const minTop = scrollY + minTopMargin + viewportOffsetTop;
+
+        if (finalTop < minTop) {
+          finalTop = minTop;
+        }
+
         (o.value.top = `${finalTop}px`),
           Q({ inputEl: P, menuEl: y, left: b, width: X }),
           (d.value = !1);
@@ -2111,24 +2099,9 @@ const Hl = (e, n, a, t) => {
         const viewportOffsetTop =
           visualViewport && isMobile ? visualViewport.offsetTop : 0;
         const minTop = scrollY + minTopMargin + viewportOffsetTop;
-        const originalTop = calculatedTop;
         if (calculatedTop < minTop) {
           calculatedTop = minTop;
         }
-        console.log("[DatePicker Position Above]", {
-          isMobile: isMobile,
-          inputTop: S,
-          menuHeight: X,
-          offset: +t.offset,
-          scrollY: scrollY,
-          viewportOffsetTop: viewportOffsetTop,
-          minTopMargin: minTopMargin,
-          minTop: minTop,
-          originalCalculatedTop: originalTop,
-          adjustedTop: calculatedTop,
-          wasClamped: originalTop !== calculatedTop,
-          teleport: t.teleport,
-        });
         (o.value.top = `${calculatedTop}px`),
           Q({ inputEl: P, menuEl: y, left: b, width: U }),
           (d.value = !0);
@@ -2162,47 +2135,18 @@ const Hl = (e, n, a, t) => {
         const spaceAbove = b - scrollY - minTopMargin;
         const fitsBelow = S + +t.offset <= spaceBelow;
         const fitsAbove = S + +t.offset <= spaceAbove;
-        console.log("[DatePicker Auto Position Decision]", {
-          isMobile: isMobile,
-          menuHeight: S,
-          inputTop: b,
-          inputHeight: U,
-          windowHeight: window.innerHeight,
-          viewportHeight: viewportHeight,
-          visualViewportOffsetTop: viewportOffsetTop,
-          scrollY: scrollY,
-          offset: +t.offset,
-          minTopMargin: minTopMargin,
-          spaceBelow: spaceBelow,
-          spaceAbove: spaceAbove,
-          fitsBelow: fitsBelow,
-          fitsAbove: fitsAbove,
-          teleport: t.teleport,
-        });
         if (fitsBelow) {
-          console.log("[DatePicker] Decision: Position BELOW (fits)");
           return B(P, y);
         }
         if (fitsAbove) {
-          console.log("[DatePicker] Decision: Position ABOVE (fits)");
           return E(P, y);
         }
-        const decision = spaceBelow >= spaceAbove ? "BELOW" : "ABOVE";
-        console.log(
-          `[DatePicker] Decision: Position ${decision} (fallback - more space)`
-        );
         return spaceBelow >= spaceAbove ? B(P, y) : E(P, y);
       },
       ne = () => {
         const P = _e(n),
           y = _e(e);
         if (P && y) {
-          console.log("[DatePicker] setMenuPosition called", {
-            autoPosition: t.autoPosition,
-            teleport: t.teleport,
-            position: t.position,
-            altPosition: t.altPosition,
-          });
           return t.autoPosition ? j(P, y) : B(P, y);
         }
       },
@@ -2221,89 +2165,6 @@ const Hl = (e, n, a, t) => {
           ? P
           : ce(P.parentNode);
       };
-    ct(
-      () => o.value,
-      (newPos) => {
-        console.log("[DatePicker] menuPosition updated", {
-          ...newPos,
-          openOnTop: d.value,
-        });
-        yt(() => {
-          const menuEl = _e(e);
-          if (menuEl) {
-            const rect = menuEl.getBoundingClientRect();
-            const computedStyle = window.getComputedStyle(menuEl);
-            const isMobile = window.innerWidth <= 768;
-            const visualViewport = window.visualViewport;
-            const viewportTop =
-              visualViewport && isMobile ? visualViewport.offsetTop : 0;
-            const minTopMargin = 8;
-
-            console.log("[DatePicker] Menu DOM position BEFORE adjustment", {
-              rectTop: rect.top,
-              rectBottom: rect.bottom,
-              rectHeight: rect.height,
-              computedTop: computedStyle.top,
-              computedPosition: computedStyle.position,
-              computedTransform: computedStyle.transform,
-              isVisible: rect.height > 0,
-              isMobile: isMobile,
-              visualViewportHeight: visualViewport
-                ? visualViewport.height
-                : "N/A",
-              viewportOffsetTop: viewportTop,
-            });
-
-            // Check if menu is cut off at the top and fix it
-            // Only adjust on mobile OR if the top position is very low (indicating initial positioning)
-            const currentTopValue = parseFloat(computedStyle.top);
-            const isLikelyIntermediatePosition = currentTopValue < 30; // Initial centered position is around 20px
-            const shouldAdjust =
-              rect.top < viewportTop + minTopMargin &&
-              (isMobile || !isLikelyIntermediatePosition);
-
-            if (shouldAdjust) {
-              const adjustment = viewportTop + minTopMargin - rect.top;
-              const newTop = currentTopValue + adjustment;
-              console.log("[DatePicker] Menu is cut off! Adjusting position", {
-                oldTop: currentTopValue,
-                adjustment: adjustment,
-                newTop: newTop,
-                rectTopWas: rect.top,
-                shouldBe: viewportTop + minTopMargin,
-                isMobile: isMobile,
-                isLikelyIntermediate: isLikelyIntermediatePosition,
-              });
-              o.value.top = `${newTop}px`;
-
-              yt(() => {
-                const newRect = menuEl.getBoundingClientRect();
-                console.log("[DatePicker] Menu DOM position AFTER adjustment", {
-                  rectTop: newRect.top,
-                  rectBottom: newRect.bottom,
-                  wasCutOff: rect.top < viewportTop + minTopMargin,
-                  isNowVisible: newRect.top >= viewportTop + minTopMargin,
-                });
-              });
-            } else if (rect.top < viewportTop + minTopMargin) {
-              console.log(
-                "[DatePicker] Menu appears cut off but skipping adjustment",
-                {
-                  rectTop: rect.top,
-                  computedTop: currentTopValue,
-                  isMobile: isMobile,
-                  isLikelyIntermediate: isLikelyIntermediatePosition,
-                  reason: isLikelyIntermediatePosition
-                    ? "Waiting for final position"
-                    : "Desktop with proper top value",
-                }
-              );
-            }
-          }
-        });
-      },
-      { deep: true }
-    );
     return {
       openOnTop: d,
       menuPosition: o,
