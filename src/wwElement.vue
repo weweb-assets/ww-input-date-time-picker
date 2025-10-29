@@ -255,7 +255,7 @@ export default {
     },
     modelType() {
       if (this.content.dateMode === "date") return "yyyy-MM-dd";
-      if (this.content.dateMode === "time") return "HH:mm:ss";
+      if (this.content.dateMode === "time") return "HH:mm:SS";
       if (this.content.dateMode === "month") return "yyyy-MM";
       return null;
     },
@@ -346,7 +346,7 @@ export default {
       else if (this.content.selectionMode === "range") {
         if (!value.start && !value.end) return null;
         return [value.start || null, value.end || null].filter(
-          (item) => item !== null && item !== ""
+          (value) => value !== null && value !== ""
         );
       } else if (this.content.selectionMode === "multi") return value;
     },
@@ -383,6 +383,19 @@ export default {
         this.wwDatePicker.closeMenu();
       });
     },
+    /* wwEditor:start */
+    getTestEvent() {
+      let fakeDate = new Date().toISOString();
+      if (this.content.dateMode === "month") fakeDate = "2023-03";
+      if (this.content.dateMode === "year") fakeDate = "2023";
+      if (this.content.dateMode === "time") fakeDate = "01:25:00";
+      if (this.content.selectionMode === "single") return { value: fakeDate };
+      else if (this.content.selectionMode === "range")
+        return { value: { start: fakeDate, end: fakeDate } };
+      else if (this.content.selectionMode === "multi")
+        return { value: [fakeDate, fakeDate, fakeDate] };
+    },
+    /* wwEditor:end */
   },
 };
 </script>
