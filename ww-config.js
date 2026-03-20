@@ -141,16 +141,19 @@ export default {
       name: "change",
       label: { en: "On change" },
       event: { value: "2023-03-02T14:54:54.727Z" },
+        description: "Run when the value changes.",
     },
     {
       name: "initValueChange",
       label: { en: "On init value change" },
       event: { value: "2023-03-02T14:54:54.727Z" },
+        description: "Run when the initial value changes.",
     },
     {
       name: "onFlowStep",
       label: { en: "On flow step" },
       event: { value: 1 },
+        description: "Run when the date/time picker moves to the next step.",
     },
   ],
   actions: [
