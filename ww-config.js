@@ -141,7 +141,7 @@ export default {
       name: "change",
       label: { en: "On change" },
       event: { value: "2023-03-02T14:54:54.727Z" },
-        description: "Run when the value changes.",
+        description: "Run when the selected date and time changes.",
     },
     {
       name: "initValueChange",
