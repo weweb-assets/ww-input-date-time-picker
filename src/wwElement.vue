@@ -106,7 +106,7 @@
 import DatePicker from "./vue-datepicker.js";
 import * as DateFnsLocal from "date-fns/locale";
 import "./main.css";
-import { computed, ref } from "vue";
+import { computed, ref, inject } from "vue";
 
 export default {
   components: {
