@@ -236,6 +236,7 @@ export default {
     },
     /* https://github.com/date-fns/date-fns/blob/main/docs/unicodeTokens.md */
     previewFormat() {
+      if (this.content.format === "iso") return this.formatIsoPreview;
       const format =
         this.content.format === "custom"
           ? this.content.customFormat
@@ -278,7 +279,8 @@ export default {
       );
     },
     modelType() {
-      if (this.content.dateMode === "date") return "yyyy-MM-dd";
+      if (this.content.dateMode === "date")
+        return this.content.format === "iso" ? null : "yyyy-MM-dd";
       if (this.content.dateMode === "time") return "HH:mm:SS";
       if (this.content.dateMode === "month") return "yyyy-MM";
       return null;
@@ -350,7 +352,10 @@ export default {
   },
   methods: {
     handleSelection(value) {
-      if (this.content.dateMode === "datetime" && value) {
+      const emitsDateObjects =
+        this.content.dateMode === "datetime" ||
+        (this.content.dateMode === "date" && this.content.format === "iso");
+      if (emitsDateObjects && value) {
         value = Array.isArray(value)
           ? value.map((date) => (date ? date.toISOString() : null))
           : value.toISOString();
@@ -380,6 +385,17 @@ export default {
       else if (this.content.selectionMode === "range")
         return { start: value[0], end: value[1] };
       else if (this.content.selectionMode === "multi") return value;
+    },
+    formatIsoPreview(value) {
+      if (Array.isArray(value)) {
+        const separator =
+          this.content.selectionMode === "multi" ? "; " : " - ";
+        return value
+          .filter((date) => date instanceof Date)
+          .map((date) => date.toISOString())
+          .join(separator);
+      }
+      return value instanceof Date ? value.toISOString() : "";
     },
     clearValue() {
       const clearValue =

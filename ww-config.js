@@ -698,6 +698,7 @@ export default {
             value: "MMM D, YYYY h:mm A",
             label: { en: "MMM D, YYYY h:mm A" },
           },
+          { value: "iso", label: { en: "ISO 8601" } },
           { value: "custom", label: { en: "Custom" } },
         ],
       },
