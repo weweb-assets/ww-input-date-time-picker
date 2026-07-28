@@ -240,8 +240,17 @@ export default {
     /* https://github.com/date-fns/date-fns/blob/main/docs/unicodeTokens.md */
     previewFormat() {
       if (this.content.format === "iso") {
-        console.log("[WW-5688] previewFormat -> ISO function branch");
-        return this.formatIsoPreview;
+        const isoCapableMode =
+          !this.content.dateMode ||
+          this.content.dateMode === "date" ||
+          this.content.dateMode === "datetime";
+        console.log(
+          "[WW-5688] previewFormat -> ISO branch | dateMode =",
+          this.content.dateMode,
+          "| isoCapableMode =",
+          isoCapableMode,
+        );
+        return isoCapableMode ? this.formatIsoPreview : null;
       }
       const format =
         this.content.format === "custom"
