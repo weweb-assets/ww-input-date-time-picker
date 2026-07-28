@@ -77,7 +77,10 @@
         <wwLayoutItemContext
           :index="0"
           :item="null"
-          :data="{ preview: value, value: formatOutputValue(formatedValue) }"
+          :data="{
+            preview: logSlotPreview(value),
+            value: formatOutputValue(formatedValue),
+          }"
           is-repeat
         >
           <wwLayout path="triggerZone" />
@@ -236,16 +239,31 @@ export default {
     },
     /* https://github.com/date-fns/date-fns/blob/main/docs/unicodeTokens.md */
     previewFormat() {
-      if (this.content.format === "iso") return this.formatIsoPreview;
+      if (this.content.format === "iso") {
+        console.log("[WW-5688] previewFormat -> ISO function branch");
+        return this.formatIsoPreview;
+      }
       const format =
         this.content.format === "custom"
           ? this.content.customFormat
           : this.content.format;
       if (!format) return null;
-      return format.replace(/Y/g, "y").replace(/D/g, "d").replace(/A/g, "a");
+      const normalized = format
+        .replace(/Y/g, "y")
+        .replace(/D/g, "d")
+        .replace(/A/g, "a");
+      console.log("[WW-5688] previewFormat -> token string:", normalized);
+      return normalized;
     },
     formatedValue() {
-      return this.formatInputValue(this.variableValue);
+      const modelValue = this.formatInputValue(this.variableValue);
+      console.log(
+        "[WW-5688] formatedValue (model-value prop) =",
+        JSON.stringify(modelValue),
+        "| variableValue =",
+        JSON.stringify(this.variableValue),
+      );
+      return modelValue;
     },
     locale() {
       if (this.content.lang === "pageLang") {
@@ -279,11 +297,20 @@ export default {
       );
     },
     modelType() {
+      let modelType = null;
       if (this.content.dateMode === "date")
-        return this.content.format === "iso" ? null : "yyyy-MM-dd";
-      if (this.content.dateMode === "time") return "HH:mm:SS";
-      if (this.content.dateMode === "month") return "yyyy-MM";
-      return null;
+        modelType = this.content.format === "iso" ? null : "yyyy-MM-dd";
+      else if (this.content.dateMode === "time") modelType = "HH:mm:SS";
+      else if (this.content.dateMode === "month") modelType = "yyyy-MM";
+      console.log(
+        "[WW-5688] modelType =",
+        JSON.stringify(modelType),
+        "| dateMode =",
+        this.content.dateMode,
+        "| format =",
+        this.content.format,
+      );
+      return modelType;
     },
     isReadOnly() {
       /* wwEditor:start */
@@ -352,6 +379,14 @@ export default {
   },
   methods: {
     handleSelection(value) {
+      console.log(
+        "[WW-5688] handleSelection value =",
+        value,
+        "| instanceofDate =",
+        value instanceof Date,
+        "| isArray =",
+        Array.isArray(value),
+      );
       const emitsDateObjects =
         this.content.dateMode === "datetime" ||
         (this.content.dateMode === "date" && this.content.format === "iso");
@@ -368,6 +403,16 @@ export default {
         name: "change",
         event: { value: newValue },
       });
+    },
+    logSlotPreview(value) {
+      if (this._lastLoggedSlotPreview !== value) {
+        this._lastLoggedSlotPreview = value;
+        console.log(
+          "[WW-5688] dp-input slot receives preview =",
+          JSON.stringify(value),
+        );
+      }
+      return value;
     },
     formatInputValue(value) {
       if (!value) return null;
@@ -387,17 +432,39 @@ export default {
       else if (this.content.selectionMode === "multi") return value;
     },
     formatIsoPreview(value) {
+      const describe = (input) => {
+        let raw;
+        try {
+          raw = JSON.stringify(input);
+        } catch (error) {
+          raw = String(input);
+        }
+        return {
+          typeof: typeof input,
+          constructor:
+            input && input.constructor ? input.constructor.name : "n/a",
+          isArray: Array.isArray(input),
+          instanceofDate: input instanceof Date,
+          hasToISOString: !!(input && typeof input.toISOString === "function"),
+          raw,
+        };
+      };
+      console.log("[WW-5688] formatIsoPreview CALLED with:", describe(value));
       const toIso = (part) => {
         if (part === null || part === undefined || part === "") return null;
         const date = part instanceof Date ? part : new Date(part);
         return isNaN(date.getTime()) ? null : date.toISOString();
       };
+      let result;
       if (Array.isArray(value)) {
         const separator =
           this.content.selectionMode === "multi" ? "; " : " - ";
-        return value.map(toIso).filter(Boolean).join(separator);
+        result = value.map(toIso).filter(Boolean).join(separator);
+      } else {
+        result = toIso(value) || "";
       }
-      return toIso(value) || "";
+      console.log("[WW-5688] formatIsoPreview RETURNS:", JSON.stringify(result));
+      return result;
     },
     clearValue() {
       const clearValue =

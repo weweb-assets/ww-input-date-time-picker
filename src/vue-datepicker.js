@@ -1828,8 +1828,12 @@ const Al = (e, n = 3) => {
       q = (r) => {
         const G = X(r);
         L(Ae(G))
-          ? ((t.value = Ae(G)), l())
-          : ((t.value = null), (T.value = ""));
+          ? (console.log("[WW-5688][lib] parseExternalModelValue OK, external =", JSON.stringify(r), "-> internal =", G),
+            (t.value = Ae(G)),
+            l())
+          : (console.log("[WW-5688][lib] parseExternalModelValue REJECTED, external =", JSON.stringify(r), "-> parsed =", G),
+            (t.value = null),
+            (T.value = ""));
       },
       _ = () => {
         var G;
@@ -1872,6 +1876,16 @@ const Al = (e, n = 3) => {
         !n.format || typeof n.format == "string"
           ? (T.value = u())
           : (T.value = n.format(t.value));
+        console.log(
+          "[WW-5688][lib] formatInputValue: format type =",
+          typeof n.format,
+          "| internal model =",
+          t.value,
+          "| instanceof Date =",
+          t.value instanceof Date,
+          "| inputValue T =",
+          JSON.stringify(T.value)
+        );
       },
       v = (r) => {
         if (n.utc) {
