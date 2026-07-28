@@ -387,15 +387,17 @@ export default {
       else if (this.content.selectionMode === "multi") return value;
     },
     formatIsoPreview(value) {
+      const toIso = (part) => {
+        if (part === null || part === undefined || part === "") return null;
+        const date = part instanceof Date ? part : new Date(part);
+        return isNaN(date.getTime()) ? null : date.toISOString();
+      };
       if (Array.isArray(value)) {
         const separator =
           this.content.selectionMode === "multi" ? "; " : " - ";
-        return value
-          .filter((date) => date instanceof Date)
-          .map((date) => date.toISOString())
-          .join(separator);
+        return value.map(toIso).filter(Boolean).join(separator);
       }
-      return value instanceof Date ? value.toISOString() : "";
+      return toIso(value) || "";
     },
     clearValue() {
       const clearValue =
