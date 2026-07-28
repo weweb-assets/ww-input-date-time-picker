@@ -390,6 +390,18 @@ export default {
       const emitsDateObjects =
         this.content.dateMode === "datetime" ||
         (this.content.dateMode === "date" && this.content.format === "iso");
+      console.log(
+        "[WW-5688] handleSelection config: dateMode =",
+        this.content.dateMode,
+        "| format =",
+        this.content.format,
+        "| selectionMode =",
+        this.content.selectionMode,
+        "| timezone =",
+        this.content.timezone,
+        "| emitsDateObjects =",
+        emitsDateObjects,
+      );
       if (emitsDateObjects && value) {
         value = Array.isArray(value)
           ? value.map((date) => (date ? date.toISOString() : null))

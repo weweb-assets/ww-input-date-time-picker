@@ -1888,6 +1888,13 @@ const Al = (e, n = 3) => {
         );
       },
       v = (r) => {
+        console.log(
+          "[WW-5688][lib] parse v(r): r =", JSON.stringify(r),
+          "| n.utc =", n.utc,
+          "| n.modelType =", JSON.stringify(n.modelType),
+          "| typeof n.format =", typeof n.format,
+          "| default pattern D() =", typeof n.format == "string" ? "(format string)" : (() => { try { return D(); } catch (err) { return "D() threw " + err.message; } })()
+        );
         if (n.utc) {
           const G = new Date(r);
           return n.utc === "preserve"
@@ -1917,6 +1924,11 @@ const Al = (e, n = 3) => {
             : o(r)
           : "",
       k = (r) => {
+        console.log(
+          "[WW-5688][lib] EMIT update:model-value:", r,
+          "| instanceof Date =", r instanceof Date,
+          "| typeof =", typeof r
+        );
         e("update:model-value", r);
       },
       x = (r) =>
