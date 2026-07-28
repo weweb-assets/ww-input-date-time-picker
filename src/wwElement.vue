@@ -240,17 +240,12 @@ export default {
     /* https://github.com/date-fns/date-fns/blob/main/docs/unicodeTokens.md */
     previewFormat() {
       if (this.content.format === "iso") {
-        const isoCapableMode =
-          !this.content.dateMode ||
-          this.content.dateMode === "date" ||
-          this.content.dateMode === "datetime";
-        console.log(
-          "[WW-5688] previewFormat -> ISO branch | dateMode =",
-          this.content.dateMode,
-          "| isoCapableMode =",
-          isoCapableMode,
-        );
-        return isoCapableMode ? this.formatIsoPreview : null;
+        const dateMode = this.content.dateMode;
+        console.log("[WW-5688] previewFormat -> ISO branch | dateMode =", dateMode);
+        if (!dateMode || dateMode === "date" || dateMode === "datetime")
+          return this.formatIsoPreview;
+        if (dateMode === "time") return this.formatIsoTimePreview;
+        return null;
       }
       const format =
         this.content.format === "custom"
@@ -424,6 +419,33 @@ export default {
         name: "change",
         event: { value: newValue },
       });
+    },
+    formatIsoTimePreview(value) {
+      const two = (part) => String(part).padStart(2, "0");
+      const toIsoTime = (part) => {
+        if (part === null || part === undefined || part === "") return null;
+        const date = part instanceof Date ? part : new Date(part);
+        if (!isNaN(date.getTime()))
+          return `${two(date.getHours())}:${two(date.getMinutes())}:${two(date.getSeconds())}`;
+        return typeof part === "string" && /^\d{2}:\d{2}/.test(part)
+          ? part
+          : null;
+      };
+      let result;
+      if (Array.isArray(value)) {
+        const separator =
+          this.content.selectionMode === "multi" ? "; " : " - ";
+        result = value.map(toIsoTime).filter(Boolean).join(separator);
+      } else {
+        result = toIsoTime(value) || "";
+      }
+      console.log(
+        "[WW-5688] formatIsoTimePreview:",
+        value,
+        "->",
+        JSON.stringify(result),
+      );
+      return result;
     },
     logSlotPreview(value) {
       if (this._lastLoggedSlotPreview !== value) {
