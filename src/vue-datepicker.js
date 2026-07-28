@@ -1828,12 +1828,8 @@ const Al = (e, n = 3) => {
       q = (r) => {
         const G = X(r);
         L(Ae(G))
-          ? (console.log("[WW-5688][lib] parseExternalModelValue OK, external =", JSON.stringify(r), "-> internal =", G),
-            (t.value = Ae(G)),
-            l())
-          : (console.log("[WW-5688][lib] parseExternalModelValue REJECTED, external =", JSON.stringify(r), "-> parsed =", G),
-            (t.value = null),
-            (T.value = ""));
+          ? ((t.value = Ae(G)), l())
+          : ((t.value = null), (T.value = ""));
       },
       _ = () => {
         var G;
@@ -1876,25 +1872,8 @@ const Al = (e, n = 3) => {
         !n.format || typeof n.format == "string"
           ? (T.value = u())
           : (T.value = n.format(t.value));
-        console.log(
-          "[WW-5688][lib] formatInputValue: format type =",
-          typeof n.format,
-          "| internal model =",
-          t.value,
-          "| instanceof Date =",
-          t.value instanceof Date,
-          "| inputValue T =",
-          JSON.stringify(T.value)
-        );
       },
       v = (r) => {
-        console.log(
-          "[WW-5688][lib] parse v(r): r =", JSON.stringify(r),
-          "| n.utc =", n.utc,
-          "| n.modelType =", JSON.stringify(n.modelType),
-          "| typeof n.format =", typeof n.format,
-          "| default pattern D() =", typeof n.format == "string" ? "(format string)" : (() => { try { return D(); } catch (err) { return "D() threw " + err.message; } })()
-        );
         if (n.utc) {
           const G = new Date(r);
           return n.utc === "preserve"
@@ -1924,11 +1903,6 @@ const Al = (e, n = 3) => {
             : o(r)
           : "",
       k = (r) => {
-        console.log(
-          "[WW-5688][lib] EMIT update:model-value:", r,
-          "| instanceof Date =", r instanceof Date,
-          "| typeof =", typeof r
-        );
         e("update:model-value", r);
       },
       x = (r) =>

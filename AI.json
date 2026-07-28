@@ -335,7 +335,7 @@
         },
         {
             "name": "format",
-            "description": "Display format for the selected date in the trigger's `preview`. Pick `custom` to use `customFormat`. Pick `iso` to show a strict ISO 8601 string (`toISOString()`), which also makes the exposed `value` variable a full ISO string when `dateMode=date`.",
+            "description": "Display format for the selected date in the trigger's `preview`. Pick `custom` to use `customFormat`. Pick `iso` for strict ISO 8601 output: in `dateMode=date/datetime` the preview and the exposed `value` variable are full ISO strings (`toISOString()`); in `dateMode=time` the preview shows the local `HH:mm:ss` time (the `value` already has that shape); other modes keep their default preview and value shapes.",
             "type": "string",
             "options": [
                 "DD/MM/YYYY",
