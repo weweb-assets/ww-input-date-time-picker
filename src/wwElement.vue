@@ -236,6 +236,13 @@ export default {
     },
     /* https://github.com/date-fns/date-fns/blob/main/docs/unicodeTokens.md */
     previewFormat() {
+      if (this.content.format === "iso") {
+        const dateMode = this.content.dateMode;
+        if (!dateMode || dateMode === "date" || dateMode === "datetime")
+          return this.formatIsoPreview;
+        if (dateMode === "time") return this.formatIsoTimePreview;
+        return null;
+      }
       const format =
         this.content.format === "custom"
           ? this.content.customFormat
@@ -278,7 +285,8 @@ export default {
       );
     },
     modelType() {
-      if (this.content.dateMode === "date") return "yyyy-MM-dd";
+      if (this.content.dateMode === "date")
+        return this.content.format === "iso" ? null : "yyyy-MM-dd";
       if (this.content.dateMode === "time") return "HH:mm:SS";
       if (this.content.dateMode === "month") return "yyyy-MM";
       return null;
@@ -350,7 +358,10 @@ export default {
   },
   methods: {
     handleSelection(value) {
-      if (this.content.dateMode === "datetime" && value) {
+      const emitsDateObjects =
+        this.content.dateMode === "datetime" ||
+        (this.content.dateMode === "date" && this.content.format === "iso");
+      if (emitsDateObjects && value) {
         value = Array.isArray(value)
           ? value.map((date) => (date ? date.toISOString() : null))
           : value.toISOString();
@@ -363,6 +374,24 @@ export default {
         name: "change",
         event: { value: newValue },
       });
+    },
+    formatIsoTimePreview(value) {
+      const two = (part) => String(part).padStart(2, "0");
+      const toIsoTime = (part) => {
+        if (part === null || part === undefined || part === "") return null;
+        const date = part instanceof Date ? part : new Date(part);
+        if (!isNaN(date.getTime()))
+          return `${two(date.getHours())}:${two(date.getMinutes())}:${two(date.getSeconds())}`;
+        return typeof part === "string" && /^\d{2}:\d{2}/.test(part)
+          ? part
+          : null;
+      };
+      if (Array.isArray(value)) {
+        const separator =
+          this.content.selectionMode === "multi" ? "; " : " - ";
+        return value.map(toIsoTime).filter(Boolean).join(separator);
+      }
+      return toIsoTime(value) || "";
     },
     formatInputValue(value) {
       if (!value) return null;
@@ -380,6 +409,19 @@ export default {
       else if (this.content.selectionMode === "range")
         return { start: value[0], end: value[1] };
       else if (this.content.selectionMode === "multi") return value;
+    },
+    formatIsoPreview(value) {
+      const toIso = (part) => {
+        if (part === null || part === undefined || part === "") return null;
+        const date = part instanceof Date ? part : new Date(part);
+        return isNaN(date.getTime()) ? null : date.toISOString();
+      };
+      if (Array.isArray(value)) {
+        const separator =
+          this.content.selectionMode === "multi" ? "; " : " - ";
+        return value.map(toIso).filter(Boolean).join(separator);
+      }
+      return toIso(value) || "";
     },
     clearValue() {
       const clearValue =
